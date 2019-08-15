@@ -184,7 +184,41 @@ namespace Javirs.Common.Net
                 return this._responseData.Result;
             }
         }
-
+        /// <summary>
+        /// 直接post字节数组
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="contentType"></param>
+        /// <param name="timeout"></param>
+        /// <param name="isUseCert"></param>
+        /// <returns></returns>
+        public string Post(byte[] buffer, string contentType, int timeout, bool isUseCert)
+        {
+            return SendRequest("POST", buffer, contentType, timeout, isUseCert);
+        }
+        /// <summary>
+        /// 发送请求
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="buffer"></param>
+        /// <param name="contentType"></param>
+        /// <param name="timeout"></param>
+        /// <param name="isUseCert"></param>
+        /// <returns></returns>
+        public string SendRequest(string method, byte[] buffer, string contentType, int timeout, bool isUseCert)
+        {
+            timeout = timeout < 10 ? 10 : timeout;
+            this._requestData.SetRequestBody(buffer);
+            this._requestData.ContentType = contentType;
+            this._requestData.Timeout = timeout;
+            this._requestData.UseCert = isUseCert;
+            this._requestData.Method = method;
+            using (this._requestData)
+            {
+                this._responseData = this._requestData.GetResponse();
+                return this._responseData.Result;
+            }
+        }
         /// <summary>
         /// 向http接口post数据
         /// </summary>
@@ -314,9 +348,10 @@ namespace Javirs.Common.Net
                 }
                 path = string.Concat(path, sep, query);
             }
+            this._requestData.Url = path;
             using (this._requestData)
             {
-                this._responseData = this._requestData.GetResponse(path);
+                this._responseData = this._requestData.GetResponse();
                 return _responseData.Result;
             }
         }
@@ -351,6 +386,14 @@ namespace Javirs.Common.Net
                 return 0;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="certificate"></param>
+        /// <param name="chain"></param>
+        /// <param name="errors"></param>
+        /// <returns></returns>
         protected static bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
         {
             //直接确认，否则打不开    
@@ -394,6 +437,10 @@ namespace Javirs.Common.Net
                     }
                     this._buffer = this.Encoding.GetBytes(s);
                 }
+            }
+            public void SetRequestBody(byte[] buffer)
+            {
+                this._buffer = buffer;
             }
             public List<IPostData> PostDataCollection { get; set; }
             public void AddHeader(string name, string value)
@@ -542,7 +589,7 @@ namespace Javirs.Common.Net
                     request.CookieContainer.Add(cookie);
                 }
             }
-            private HttpWebRequest BuildRequest(string method, string contentType, string url = null)
+            private HttpWebRequest BuildRequest()
             {
                 int timeout = this.Timeout < 10 ? 10 : this.Timeout;
                 if (this.Url.StartsWith("https", StringComparison.CurrentCultureIgnoreCase))
@@ -554,10 +601,10 @@ namespace Javirs.Common.Net
                     }
                     ServicePointManager.ServerCertificateValidationCallback = remoteCallBack;
                 }
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url ?? this.Url);
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(this.Url);
                 request.KeepAlive = true;
-                request.ContentType = contentType;
-                request.Method = method;
+                request.ContentType = this.ContentType;
+                request.Method = this.Method;
                 request.Timeout = timeout * 1000;
                 //是否使用证书
                 if (this.UseCert && this.Certification != null)
@@ -567,18 +614,19 @@ namespace Javirs.Common.Net
                 }
                 SetRequestCookie(request);
                 SetRequestHeader(request);
-                if ("POST".Equals(method, StringComparison.OrdinalIgnoreCase) && this.Buffer != null && this.Buffer.Length > 0)
+                if (this.Buffer != null && this.Buffer.Length > 0)
                 {
                     request.ContentLength = this.Buffer.Length;
+                    request.ContentType = this.ContentType;
                     Stream reqStream = request.GetRequestStream();
                     reqStream.Write(this.Buffer, 0, this.Buffer.Length);
                     reqStream.Close();
                 }
                 return request;
             }
-            public Response GetResponse(string overrideUrl = null)
+            public Response GetResponse()
             {
-                _webRequest = this.BuildRequest(this.Method, this.ContentType, overrideUrl);
+                _webRequest = this.BuildRequest();
                 try
                 {
                     _webRepsonse = (HttpWebResponse)_webRequest.GetResponse();
@@ -588,6 +636,15 @@ namespace Javirs.Common.Net
                 {
                     return Response.ParseFrom(e, this.Encoding);
                 }
+                finally
+                {
+                    this.Reset();
+                }
+            }
+            public void Reset()
+            {
+                this._buffer = null;
+                this.PostDataCollection.Clear();
             }
             public void Dispose()
             {
