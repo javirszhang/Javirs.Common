@@ -194,7 +194,7 @@ namespace Javirs.Common.Net
         /// <returns></returns>
         public string Post(byte[] buffer, string contentType, int timeout, bool isUseCert)
         {
-            return SendRequest("POST", buffer, contentType, timeout, isUseCert);
+            return SendRequest("POST", buffer, timeout, isUseCert, contentType);
         }
         /// <summary>
         /// 发送请求
@@ -205,11 +205,14 @@ namespace Javirs.Common.Net
         /// <param name="timeout"></param>
         /// <param name="isUseCert"></param>
         /// <returns></returns>
-        public string SendRequest(string method, byte[] buffer, string contentType, int timeout, bool isUseCert)
+        public string SendRequest(string method, byte[] buffer, int timeout, bool isUseCert, string contentType = null)
         {
             timeout = timeout < 10 ? 10 : timeout;
             this._requestData.SetRequestBody(buffer);
-            this._requestData.ContentType = contentType;
+            if (!string.IsNullOrEmpty(contentType))
+            {
+                this._requestData.ContentType = contentType;
+            }
             this._requestData.Timeout = timeout;
             this._requestData.UseCert = isUseCert;
             this._requestData.Method = method;
@@ -335,7 +338,7 @@ namespace Javirs.Common.Net
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
-        public string Get(string query)
+        public string Get(string query = null)
         {
             this._requestData.Method = "GET";
             string path = this._requestData.Url;
@@ -560,8 +563,9 @@ namespace Javirs.Common.Net
                     {
                         switch (key.ToUpper())
                         {
+                            case "CONTENT-LENGTH": break;//drop content-length
                             case "ACCEPT": request.Accept = header[key]; break;
-                            case "CONTENT-TYPE": request.ContentType = header[key]; break;
+                            case "CONTENT-TYPE": this.ContentType = request.ContentType = header[key]; break;
                             case "USER-AGENT": request.UserAgent = header[key]; break;
                             case "CACHE-CONTROL":
                             case "ACCEPT-LANGUAGE":
@@ -624,6 +628,7 @@ namespace Javirs.Common.Net
                 }
                 return request;
             }
+
             public Response GetResponse()
             {
                 _webRequest = this.BuildRequest();
@@ -644,7 +649,7 @@ namespace Javirs.Common.Net
             public void Reset()
             {
                 this._buffer = null;
-                this.PostDataCollection.Clear();
+                this.PostDataCollection?.Clear();
             }
             public void Dispose()
             {
