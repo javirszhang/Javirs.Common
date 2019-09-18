@@ -115,7 +115,17 @@ namespace Javirs.Common.Json
         public string GetString(string key)
         {
             object obj = this[key];
-            return obj != null ? obj.ToString() : null;
+            if (obj == null)
+            {
+                return null;
+            }
+            var valueType = obj.GetType();
+            if(valueType == typeof(string) || valueType.IsPrimitive)
+            {
+                return obj.ToString();
+            }
+            //return obj != null ? obj.ToString() : null;
+            return JsonSerializer.JsonSerialize(obj);
         }
         /// <summary>
         /// 获取指定key的集合
@@ -231,7 +241,20 @@ namespace Javirs.Common.Json
                         {
                             value = null;
                         }
-                        resDic.Add(propertyName.ToString(), value);
+                        object jsonValue = value;
+                        if (value != null && value.StartsWith("["))
+                        {
+                            var tmp = JsonObject.ParseJsonArray(value, false);
+                            var arrayDic = new List<Dictionary<string, object>>();
+                            tmp.Aggregate(arrayDic, (d, kv) => { d.Add(kv._jsonDic); return d; });
+                            jsonValue = arrayDic;
+                        }
+                        if (value != null && value.StartsWith("{"))
+                        {
+                            var tmp2 = JsonObject.ParseJson(value,false);
+                            jsonValue = tmp2._jsonDic;
+                        }
+                        resDic.Add(propertyName.ToString(), jsonValue);
 #if V35
                         propertyName = null;
                         propertyName = new StringBuilder();
@@ -266,7 +289,21 @@ namespace Javirs.Common.Json
                         {
                             value = null;
                         }
-                        resDic.Add(propertyName.ToString(), value);
+                        object jsonValue = value;
+                        if (value != null && value.StartsWith("["))
+                        {
+                            var tmp = JsonObject.ParseJsonArray(value, false);
+                            var arrayDic = new List<Dictionary<string, object>>();
+                            tmp.Aggregate(arrayDic, (d, kv) => { d.Add(kv._jsonDic); return d; });
+                            jsonValue = arrayDic;
+                        }
+                        if (value != null && value.StartsWith("{"))
+                        {
+                            var tmp2 = JsonObject.ParseJson(value, false);
+                            jsonValue = tmp2._jsonDic;
+                        }
+                        resDic.Add(propertyName.ToString(), jsonValue);
+                        //resDic.Add(propertyName.ToString(), value);
 #if V35
                         propertyName = null;
                         propertyName = new StringBuilder();

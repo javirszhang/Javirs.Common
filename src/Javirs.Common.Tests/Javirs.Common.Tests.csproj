@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HttpHelperTest.cs" />
+    <Compile Include="JsonObjectTest.cs" />
     <Compile Include="RsaKeyHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
