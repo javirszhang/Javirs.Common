@@ -1,24 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.8.4</Version>
+    <Version>2.8.5</Version>
     <!--<TargetFramework>netstandard2.0</TargetFramework>-->
     <!--<TargetFramework>net40</TargetFramework>-->
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <DefineConstants>netstandard2_0</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net40'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net461'">
     <DefineConstants>net40</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
-    <DocumentationFile>$(TargetDirectory)\Javirs.Common.xml</DocumentationFile>
+    <DocumentationFile>G:\Jason\gitwork\Javirs.Common\src\Javirs.Common\Javirs.Common.xml</DocumentationFile>
   </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="4.0.20710" />
     <PackageReference Include="BouncyCastle" Version="1.8.5" />
-    <PackageReference Include="StackExchange.Redis" Version="[1.2.1]" />
+    <PackageReference Include="StackExchange.Redis" Version="2.0.601" />
   </ItemGroup>
   <ItemGroup>    
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
@@ -31,7 +31,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="StackExchange.Redis" Version="2.0.601" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='NET40'">
+  <ItemGroup Condition="'$(TargetFramework)'=='NET461'">
     <Reference Include="System.Web" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Security" />

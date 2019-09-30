@@ -33,6 +33,9 @@ namespace Javirs.Common.Json
             this._json = json;
             this._ignoreCase = ignorePropertyCaseSensitive;
         }
+        /// <summary>
+        /// 初始化一个空的JsonObject对象
+        /// </summary>
         public JsonObject()
         {
             _jsonDic = new Dictionary<string, object>();
@@ -120,7 +123,7 @@ namespace Javirs.Common.Json
                 return null;
             }
             var valueType = obj.GetType();
-            if(valueType == typeof(string) || valueType.IsPrimitive)
+            if (valueType == typeof(string) || valueType.IsPrimitive)
             {
                 return obj.ToString();
             }
@@ -150,8 +153,11 @@ namespace Javirs.Common.Json
         public JsonObject GetObject(string key)
         {
             string s = GetString(key);
-            var obj = JsonObject.Parse(s);
-            return obj;
+            if (!string.IsNullOrEmpty(s))
+            {
+                return JsonObject.Parse(s);
+            }
+            return new JsonObject();
         }
         /// <summary>
         /// 获取指定key的int值
@@ -160,7 +166,7 @@ namespace Javirs.Common.Json
         /// <returns></returns>
         public int GetInt(string key)
         {
-            object value = this[key];
+            string value = GetString(key);
             return Convert.ToInt32(value);
         }
         /// <summary>
@@ -170,7 +176,7 @@ namespace Javirs.Common.Json
         /// <returns></returns>
         public bool GetBoolean(string key)
         {
-            object value = this[key];
+            string value = GetString(key);
             return Convert.ToBoolean(value);
         }
         /// <summary>
@@ -180,7 +186,7 @@ namespace Javirs.Common.Json
         /// <returns></returns>
         public decimal GetDecimal(string key)
         {
-            object value = this[key];
+            string value = GetString(key);
             return Convert.ToDecimal(value);
         }
         /// <summary>
@@ -190,7 +196,7 @@ namespace Javirs.Common.Json
         /// <returns></returns>
         public DateTime GetDateTime(string key)
         {
-            object value = this[key];
+            string value = GetString(key);
             return Convert.ToDateTime(value);
         }
         /// <summary>
@@ -251,7 +257,7 @@ namespace Javirs.Common.Json
                         }
                         if (value != null && value.StartsWith("{"))
                         {
-                            var tmp2 = JsonObject.ParseJson(value,false);
+                            var tmp2 = JsonObject.ParseJson(value, false);
                             jsonValue = tmp2._jsonDic;
                         }
                         resDic.Add(propertyName.ToString(), jsonValue);

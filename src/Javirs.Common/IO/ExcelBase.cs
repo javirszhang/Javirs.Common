@@ -118,7 +118,7 @@ namespace Javirs.Common.IO
                 response.AddHeader("Content-Length", (fileLength - beginPosition).ToString());
                 response.AddHeader("Connection", "Keep-Alive");
                 response.ContentType = "application/octet-stream";
-                response.AddHeader("Content-Disposition", "attachment;filename=" + fileName.GetWebEncodeFileName());
+                response.AddHeader("Content-Disposition", "attachment;filename=" + fileName);
                 br.BaseStream.Seek(beginPosition, SeekOrigin.Begin);
                 int blockCount = (int)Math.Floor((double)(fileLength - beginPosition) / blocksize) + 1;//块数，按10M分块
                 for (int i = 0; i < blockCount; i++)
