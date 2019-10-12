@@ -12,8 +12,22 @@ namespace Javirs.Common.Caching
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
+        /// <param name="expiry">缓存过期时间</param>
         /// <returns></returns>
-        bool Add(string key, object value);
+        bool Add(string key, object value, TimeSpan? expiry = null);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        object GetObject(string key);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        T Get<T>(string key);
         /// <summary>
         /// 删除缓存
         /// </summary>
@@ -45,7 +59,8 @@ namespace Javirs.Common.Caching
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
+        /// <param name="expiry"></param>
         /// <returns></returns>
-        bool Refresh(string key, object value = null);
+        bool Refresh(string key, object value = null, TimeSpan? expiry = null);
     }
 }

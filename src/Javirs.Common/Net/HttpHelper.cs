@@ -139,7 +139,7 @@ namespace Javirs.Common.Net
         /// <returns></returns>
         public Response GetResponse()
         {
-            return this.GetResponse();
+            return this._responseData;
         }
 
         /// <summary>

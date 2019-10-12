@@ -1,0 +1,2848 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Javirs.Common</name>
+    </assembly>
+    <members>
+        <member name="T:Javirs.Common.AsynNotify.NotifyProvider">
+            <summary>
+            异步通知提供者
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.AsynNotify.NotifyProvider.#ctor(Javirs.Common.AsynNotify.NotifyUnitBase)">
+            <summary>
+            异步通知提供者
+            </summary>
+            <param name="unit"></param>
+        </member>
+        <member name="M:Javirs.Common.AsynNotify.NotifyProvider.Notify">
+            <summary>
+            发起通知
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="E:Javirs.Common.AsynNotify.NotifyProvider.Alert">
+            <summary>
+            错误信息上抛
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.AsynNotify.NotifyProvider.OnAlert(System.String)">
+            <summary>
+            事件通知
+            </summary>
+            <param name="obj"></param>
+        </member>
+        <member name="T:Javirs.Common.AsynNotify.NotifyUnitBase">
+            <summary>
+            异步通知基类
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.AsynNotify.NotifyUnitBase.CreateQueryString">
+            <summary>
+            产生GET访问参数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.AsynNotify.NotifyUnitBase.AsynNotifyResult(System.Boolean,System.Boolean,System.String)">
+            <summary>
+            异步通知结果
+            </summary>
+            <param name="isSuccess"></param>
+            <param name="isContinue"></param>
+            <param name="notifyResult"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.AsynNotify.NotifyUnitBase.CanNotify">
+            <summary>
+            是否可以发出通知
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Javirs.Common.AsynNotify.NotifyUnitBase.NotifyUrl">
+            <summary>
+            异步通知地址
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.AsynNotify.NotifyUnitBase.Method">
+            <summary>
+            异步通知方式
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.AsynNotify.NotifyUnitImpl">
+            <summary>
+            按键名的ASC排序规则的加密实现
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.AsynNotify.NotifyUnitImpl.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="F:Javirs.Common.AsynNotify.NotifyUnitImpl._parasDic">
+            <summary>
+            排序字典
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.AsynNotify.NotifyUnitImpl.ParasDic">
+            <summary>
+            排序字典
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.AsynNotify.NotifyUnitImpl.Put(System.String,System.Object)">
+            <summary>
+            添加加密项
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Javirs.Common.AsynNotify.NotifyUnitImpl.CreateQueryString">
+            <summary>
+            生成GET访问的URL参数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.AsynNotify.NotifyUnitImpl.SignMsg">
+            <summary>
+            对消息进行签名
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="E:Javirs.Common.AsynNotify.NotifyUnitImpl.Log">
+            <summary>
+            订阅日志
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.AsynNotify.NotifyUnitImpl.OnLog(System.String)">
+            <summary>
+            执行事件通知
+            </summary>
+            <param name="s"></param>
+        </member>
+        <member name="T:Javirs.Common.Caching.ICache">
+            <summary>
+            缓存接口
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Caching.ICache.Add(System.String,System.Object,System.Nullable{System.TimeSpan})">
+            <summary>
+            添加缓存
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <param name="expiry">缓存过期时间</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.ICache.GetObject(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.ICache.Get``1(System.String)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.ICache.Delete(System.String)">
+            <summary>
+            删除缓存
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.ICache.Exist(System.String)">
+            <summary>
+            判定是否存在
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.ICache.GetOrAdd``1(System.String,System.Func{System.String,``0})">
+            <summary>
+            获取缓存值或者新增
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.ICache.GetString(System.String)">
+            <summary>
+            获取缓存字符串值
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.ICache.Refresh(System.String,System.Object,System.Nullable{System.TimeSpan})">
+            <summary>
+            刷新缓存
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <param name="expiry"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Javirs.Common.Caching.MemoryCache">
+            <summary>
+            本地内存缓存
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Caching.MemoryCache.Add(System.String,System.Object,System.Nullable{System.TimeSpan})">
+            <summary>
+            添加缓存
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <param name="expiry">过期时间</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.MemoryCache.Delete(System.String)">
+            <summary>
+            删除缓存
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.MemoryCache.Exist(System.String)">
+            <summary>
+            判断缓存是否已存在
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.MemoryCache.Get``1(System.String)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.MemoryCache.GetObject(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.MemoryCache.GetOrAdd``1(System.String,System.Func{System.String,``0})">
+            <summary>
+            新增或者获取缓存
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.MemoryCache.GetString(System.String)">
+            <summary>
+            获取缓存字符串值
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.MemoryCache.Refresh(System.String,System.Object,System.Nullable{System.TimeSpan})">
+            <summary>
+            刷新缓存
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <param name="expiry"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Javirs.Common.Caching.RedisCache">
+            <summary>
+            redis缓存操作
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Caching.RedisCache.#ctor(System.String,System.Int32)">
+            <summary>
+            redis缓存
+            </summary>
+            <param name="server">redis连接字符串，对于内网redis直接输入ip地址（10.14.0.148:3363），外网redis使用连接字符串</param>
+            <param name="db">redis数据库索引</param>
+        </member>
+        <member name="M:Javirs.Common.Caching.RedisCache.#ctor(Microsoft.Extensions.Options.IOptions{Javirs.Common.Caching.RedisConfig})">
+            <summary>
+            DI
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="M:Javirs.Common.Caching.RedisCache.GetOrAdd``1(System.String,System.Func{System.String,``0})">
+            <summary>
+            获取或添加缓存，缓存key存在时直接返回缓存值，否则执行func委托，加入返回并存入缓存
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.RedisCache.GetString(System.String)">
+            <summary>
+            获得缓存字符串值
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.RedisCache.Add(System.String,System.Object,System.Nullable{System.TimeSpan})">
+            <summary>
+            添加缓存
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <param name="expiry">过期时间</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.RedisCache.Exist(System.String)">
+            <summary>
+            判定缓存key是否存在
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.RedisCache.Delete(System.String)">
+            <summary>
+            删除指定key的缓存
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.RedisCache.Refresh(System.String,System.Object,System.Nullable{System.TimeSpan})">
+            <summary>
+            刷新缓存
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <param name="expiry"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.RedisCache.GetObject(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.RedisCache.Get``1(System.String)">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Javirs.Common.Caching.RedisConfig">
+            <summary>
+            redis配置
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Caching.RedisConfig.Server">
+            <summary>
+            redis服务连接字符串
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Caching.RedisConfig.DBIndex">
+            <summary>
+            redis db索引
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.CNY">
+            <summary>
+            人民币
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.CNY.#ctor(System.Decimal,Javirs.Common.CnyUnit)">
+            <summary>
+            人民币
+            </summary>
+            <param name="amount"></param>
+            <param name="unit"></param>
+        </member>
+        <member name="P:Javirs.Common.CNY.Unit">
+            <summary>
+            货币单位
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.CNY.Amount">
+            <summary>
+            金额数值
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.CNY.ConvertTo(Javirs.Common.CnyUnit)">
+            <summary>
+            转换到指定单位
+            </summary>
+            <param name="toUnit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.CNY.op_Equality(Javirs.Common.CNY,Javirs.Common.CNY)">
+            <summary>
+            判等
+            </summary>
+            <param name="c1"></param>
+            <param name="c2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.CNY.op_Inequality(Javirs.Common.CNY,Javirs.Common.CNY)">
+            <summary>
+            判不等
+            </summary>
+            <param name="c1"></param>
+            <param name="c2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.CNY.op_Addition(Javirs.Common.CNY,Javirs.Common.CNY)">
+            <summary>
+            两个货币相加
+            </summary>
+            <param name="c1"></param>
+            <param name="c2"></param>
+            <returns>返回以c1单位的货币对象</returns>
+        </member>
+        <member name="M:Javirs.Common.CNY.op_Subtraction(Javirs.Common.CNY,Javirs.Common.CNY)">
+            <summary>
+            两个货币相减，注意c1 减去 c2的结果不允许小于零。
+            </summary>
+            <param name="c1"></param>
+            <param name="c2"></param>
+            <returns>返回以c1单位的货币对象</returns>
+        </member>
+        <member name="T:Javirs.Common.DistributedCacheExtension">
+            <summary>
+            分布式缓存扩展类
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.DistributedCacheExtension.Get``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String)">
+            <summary>
+            获取指定key的缓存值
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="cache"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.DistributedCacheExtension.GetAsync``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String)">
+            <summary>
+            获取指定key的缓存值
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="cache"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.DistributedCacheExtension.Set``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String,``0,System.Nullable{System.TimeSpan})">
+            <summary>
+            设置
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="cache"></param>
+            <param name="key"></param>
+            <param name="t"></param>
+            <param name="ts"></param>
+        </member>
+        <member name="M:Javirs.Common.DistributedCacheExtension.SetAsync``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String,``0,System.Nullable{System.TimeSpan})">
+            <summary>
+            设置
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="cache"></param>
+            <param name="key"></param>
+            <param name="t"></param>
+            <param name="ts"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Javirs.Common.DynamicConverter">
+            <summary>
+            动态类型转换
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.DynamicConverter.#ctor(System.Data.DataRow)">
+            <summary>
+            动态类型转换
+            </summary>
+            <param name="row"></param>
+        </member>
+        <member name="M:Javirs.Common.DynamicConverter.#ctor(System.Data.DataTable,System.Boolean)">
+            <summary>
+            动态类型转换
+            </summary>
+            <param name="table"></param>
+            <param name="forceToCollection"></param>
+        </member>
+        <member name="P:Javirs.Common.DynamicConverter.KeyCase">
+            <summary>
+            Key的字符类型（大写，小写，驼峰）
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.DynamicConverter.ToDynamic(System.String[])">
+            <summary>
+            转换为动态类型
+            </summary>
+            <param name="filterColumns">过滤列（只要这些列，不传则全选）</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.DynamicConverter.op_Implicit(System.Data.DataRow)~Javirs.Common.DynamicConverter">
+            <summary>
+            对DataRow的隐式转换
+            </summary>
+            <param name="row"></param>
+        </member>
+        <member name="E:Javirs.Common.DynamicConverter.FieldGenerating">
+            <summary>
+            字段生成之前
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.DynamicConverter.OnFieldGenerating(Javirs.Common.NameValuePair)">
+            <summary>
+            字段生成之前
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.DynamicConverter.KeyType">
+            <summary>
+            属性名的大小写格式
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.DynamicConverter.KeyType.LowerCase">
+            <summary>
+            全小写
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.DynamicConverter.KeyType.UpperCase">
+            <summary>
+            全大写
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.DynamicConverter.KeyType.PascalCase">
+            <summary>
+            驼峰
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.DynamicConverter.KeyType.PascalCaseWithoutSplit">
+            <summary>
+            驼峰去掉分隔符
+            </summary>
+        </member>
+        <member name="E:Javirs.Common.DynamicConverter.BeforeRowAdding">
+            <summary>
+            一行数据生成之前
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.DynamicConverter.OnBeforeRowAdding(System.Collections.Generic.List{System.Object})">
+            <summary>
+            一行数据生成之前
+            </summary>
+        </member>
+        <member name="E:Javirs.Common.DynamicConverter.AfterRowAdded">
+            <summary>
+            一行数据生成之后
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.DynamicConverter.OnAfterRowAdded(System.Collections.Generic.List{System.Object})">
+            <summary>
+            一行数据生成之后
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.eCharts.Axis">
+            <summary>
+            坐标系
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.eCharts.EchartFactory">
+            <summary>
+            图表工厂
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.eCharts.EchartFactory.BuildLineChart(System.String,System.String[],System.String[],System.Int32[][])">
+            <summary>
+            新建折线图
+            </summary>
+            <param name="text">折线图标题</param>
+            <param name="legend">线条分类</param>
+            <param name="axis">横轴</param>
+            <param name="data">显示数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.eCharts.EchartFactory.BuildPieChart(System.String,System.String[],System.Object[],System.Int32,System.Int32,System.Int32)">
+            <summary>
+            建立一个饼状图
+            </summary>
+            <param name="text"></param>
+            <param name="legend_data"></param>
+            <param name="axis"></param>
+            <param name="data"></param>
+            <param name="radius">饼图的大小</param>
+            <param name="xPos">x坐标，百分比，默认值50（%）</param>
+            <param name="yPos">y坐标，百分比，默认值50（%）</param>
+            <returns></returns>
+        </member>
+        <member name="T:Javirs.Common.Exceptions.ArgumentFormatException">
+            <summary>
+            参数格式异常
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Exceptions.ArgumentFormatException.#ctor(System.String)">
+            <summary>
+            参数格式异常
+            </summary>
+            <param name="message">错误信息</param>
+        </member>
+        <member name="M:Javirs.Common.Exceptions.ArgumentFormatException.#ctor">
+            <summary>
+            参数格式异常，默认错误信息：[参数格式不正确]
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.Exceptions.CustomizeException">
+            <summary>
+            自定义异常，所有自定义的Exception类必须从此类派生，try块优先catch自定义异常，catch到自定义异常允许直接输出message到UI
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Exceptions.CustomizeException.#ctor(System.String)">
+            <summary>
+            自定义异常
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="P:Javirs.Common.Exceptions.CustomizeException.Message">
+            <summary>
+            错误信息
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.Exceptions.DataNotFoundException">
+            <summary>
+            找不到数据异常
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Exceptions.DataNotFoundException.#ctor(System.String)">
+            <summary>
+            找不到数据
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="T:Javirs.Common.Exceptions.JsonFormatException">
+            <summary>
+            Json格式异常
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Exceptions.JsonFormatException.#ctor(System.String)">
+            <summary>
+            Json格式异常
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Javirs.Common.Exceptions.JsonFormatException.#ctor">
+            <summary>
+            Json格式异常
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.Exceptions.MissingConfigurationException">
+            <summary>
+            缺少配置项异常
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Exceptions.MissingConfigurationException.#ctor(System.String)">
+            <summary>
+            缺少配置项异常
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Javirs.Common.Exceptions.MissingConfigurationException.#ctor(System.String,System.String)">
+            <summary>
+            缺少配置项异常
+            </summary>
+            <param name="node"></param>
+            <param name="key"></param>
+        </member>
+        <member name="T:Javirs.Common.Extensions">
+            <summary>
+            扩展类
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Extensions.Remove``1(System.Collections.Generic.ICollection{``0},System.Func{``0,System.Boolean})">
+            <summary>
+            移除符合func委托的集合项
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="self"></param>
+            <param name="func"></param>
+        </member>
+        <member name="M:Javirs.Common.Extensions.Join(System.Collections.Generic.IEnumerable{System.String},System.Char)">
+            <summary>
+            合并字符串数组为字符串
+            </summary>
+            <param name="self"></param>
+            <param name="seperator"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.Join(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            合并字符串数组为字符串
+            </summary>
+            <param name="self"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.Join(System.Collections.Generic.IEnumerable{System.Int32},System.Char)">
+            <summary>
+            合并整数数组为字符串
+            </summary>
+            <param name="self"></param>
+            <param name="seperator">连接符</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.Join(System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            合并整数数组为字符串
+            </summary>
+            <param name="self"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Char)">
+            <summary>
+            将集合的某个字段合并为一个字符串
+            </summary>
+            <typeparam name="T">集合类型</typeparam>
+            <param name="self">源集合</param>
+            <param name="express">表达式（it=>it.Name）</param>
+            <param name="seperator">分隔符</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.Sum``1(System.Collections.IEnumerable,System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+            <summary>
+            汇总集合内某个属性的和值
+            </summary>
+            <typeparam name="T">需要汇总的集合单对象</typeparam>
+            <param name="data">集合</param>
+            <param name="express">lambda表达式（it=>it.Amount）</param>
+            <returns>汇总结果，可空数字</returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.GetMemberExpressionProperty``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="express"></param>
+            <exception cref="T:System.InvalidOperationException">不合格的操作，不是有效的Lambda表达式</exception>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.ElementValue(System.Xml.Linq.XElement,System.String)">
+            <summary>
+            取得xml节点值
+            </summary>
+            <param name="ele"></param>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.ElementValue(System.Xml.Linq.XElement,System.String,System.String)">
+            <summary>
+            取得xml节点值
+            </summary>
+            <param name="ele"></param>
+            <param name="name"></param>
+            <param name="defaultvalue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.ElementValue(System.Xml.Linq.XElement,System.String,System.Decimal)">
+            <summary>
+            取得xml节点值
+            </summary>
+            <param name="ele"></param>
+            <param name="name"></param>
+            <param name="defaultvalue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.ElementValue(System.Xml.Linq.XElement,System.String,System.Int32)">
+            <summary>
+            取得xml节点值
+            </summary>
+            <param name="ele"></param>
+            <param name="name"></param>
+            <param name="defaultvalue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.ElementValue(System.Xml.Linq.XElement,System.String,System.Boolean)">
+            <summary>
+            取得xml节点值
+            </summary>
+            <param name="ele"></param>
+            <param name="name"></param>
+            <param name="defaultvalue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.Set``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
+            <summary>
+            修改集合内元素
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="self"></param>
+            <param name="action"></param>
+        </member>
+        <member name="M:Javirs.Common.Extensions.HexString2ByteArray(System.String)">
+            <summary>
+            16进制字符串转字节数组
+            </summary>
+            <param name="s"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.Byte2HexString(System.Byte[])">
+            <summary>
+            字节数组转换16进制字符串
+            </summary>
+            <param name="bs"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.TruncateValue(System.Decimal,System.Int32)">
+            <summary>
+            截断指定小数位，20180522解决溢出风险
+            </summary>
+            <param name="d"></param>
+            <param name="scale">指定保留小数位数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.BubbleSort(System.Collections.ArrayList)">
+            <summary>
+            冒泡排序法,按照字母序列从a到z的顺序排列
+            </summary>
+            <param name="r"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.ToMillisecondString(System.DateTime)">
+            <summary>
+            取得包含毫秒的时间
+            </summary>
+            <param name="time"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.ToDateTime(System.String)">
+            <summary>
+            转换类型为Nullable&lt;DateTime&gt;
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.ToLineText(System.Object)">
+            <summary>
+            转换为以属性分行的字符串
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.SaveRemoteImage(System.String,System.Uri,System.String,System.Collections.Generic.List{System.String}@)">
+            <summary>
+            保存HTML中的远程图片
+            </summary>
+            <param name="html">需要处理的HTML源串</param>
+            <param name="savedLocalPaths">保存至本地的路径集合</param>
+            <param name="localUri">本地Uri</param>
+            <param name="saveDirectory">文件保存目录</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.ToDynamic(System.Data.DataTable,System.String[])">
+            <summary>
+            转换为动态对象
+            </summary>
+            <param name="table">数据表</param>
+            <param name="selectColumns">选择的数据列</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.ToDynamic(System.Data.DataRow,System.String[])">
+            <summary>
+            转换为动态对象
+            </summary>
+            <param name="row">数据行</param>
+            <param name="selectColumns"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.ToDynamic(System.Data.DataTable,System.Boolean,System.String[],Javirs.Common.DynamicConverter.KeyType,System.Func{Javirs.Common.NameValuePair,Javirs.Common.NameValuePair},System.Action{System.Collections.Generic.List{System.Object}},System.Action{System.Collections.Generic.List{System.Object}})">
+            <summary>
+            转换为动态对象
+            </summary>
+            <param name="table">数据表</param>
+            <param name="forceToCollection">是否强制转换为集合</param>
+            <param name="selectColumns">过滤列（只要这些列，不传则全选）</param>
+            <param name="keyCase">动态属性的字符串格式（小写，大写，驼峰，驼峰不带分隔符）</param>
+            <param name="OnFieldGenerating">生成动态属性时</param>
+            <param name="OnBeforeRowAdding">生成集合一行数据之前</param>
+            <param name="OnAfterRowAdded">生产集合一行数据之后</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.ToPascalCase(System.String)">
+            <summary>
+            转换为驼峰格式
+            </summary>
+            <param name="s"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.ToPascalCase(System.String,System.Char)">
+            <summary>
+            转换为驼峰命名
+            </summary>
+            <param name="s">目标字符串</param>
+            <param name="split">字符串单词分隔符</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Extensions.ToPascalCase(System.String,System.Char,System.Boolean)">
+            <summary>
+            转化为驼峰命名
+            </summary>
+            <param name="s">目标字符串</param>
+            <param name="split">字符串单词分隔符</param>
+            <param name="ignoreSplit">输出时是否忽略分隔符</param>
+            <returns></returns>
+        </member>
+        <member name="T:Javirs.Common.IDCard">
+            <summary>
+            身份证
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.IDCard.#ctor(System.String)">
+            <summary>
+            使�       <param name="cardno"></param>
+        </member>
+        <member name="P:Javirs.Common.IDCard.Birthday">
+            <summary>
+            出生日期
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.IDCard.Sex">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.IDCard.IsValid">
+            <summary>
+            是否有效
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.IDCard.ProvinceName">
+            <summary>
+            所属省份
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.IDCard.UserSex">
+            <summary>
+            性别枚举
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.IDCard.UserSex.女">
+            <summary>
+            Female
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.IDCard.UserSex.男">
+            <summary>
+            Male
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.IDCard.ToString">
+            <summary>
+            已重载，打印格式 “身份证号码:{0},是否有效:{4},所在省份:{1},性别:{2},出生日期:{3}”
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Javirs.Common.IO.ExcelBase">
+            <summary>
+            导出Excel基类
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.IO.ExcelBase.SetCellValue(NPOI.SS.UserModel.ICell,System.Object,System.Type)">
+            <summary>
+            设置单元格样式
+            </summary>
+            <param name="cell"></param>
+            <param name="obj"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:Javirs.Common.IO.ExcelBase.Export(System.IO.Stream)">
+            <summary>
+            导出Excel到流
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="M:Javirs.Common.IO.ExcelBase.ExportToWebClient(System.String)">
+            <summary>
+            导出到Web客户端
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.IO.ExcelBase.ExportExcelToWebClient(System.IO.BinaryReader,System.Int64,System.String)">
+            <summary>
+            导出到Web客户端，支持断点续传
+            </summary>
+            <param name="br"></param>
+            <param name="fileLength"></param>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.IO.ExcelBase.Export(System.String)">
+            <summary>
+            MVC导出到浏览器
+            </summary>
+            <param name="fileName">文件名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.IO.ExcelBase.GetCellStyle(NPOI.HSSF.UserModel.HSSFWorkbook)">
+            <summary>
+            获取单元格样式
+            </summary>
+            <param name="book"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.IO.ExcelBase.GetTitleStyle(NPOI.HSSF.UserModel.HSSFWorkbook)">
+            <summary>
+            获取表头单元格样式
+            </summary>
+            <param name="book"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.IO.ExcelBase.SetTitleStyle(NPOI.SS.UserModel.ICellStyle)">
+            <summary>
+            设置表头样式
+            </summary>
+            <param name="style"></param>
+        </member>
+        <member name="M:Javirs.Common.IO.ExcelBase.SetCellStyle(NPOI.SS.UserModel.ICellStyle)">
+            <summary>
+            设置除表头外的单元格样式
+            </summary>
+            <param name="style"></param>
+        </member>
+        <member name="T:Javirs.Common.IO.ExcelCell">
+            <summary>
+            excel表格单元格
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.IO.ExcelSheet">
+            <summary>
+            EXCEL表格
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.IO.ExcelSheet.#ctor(System.Data.DataTable,System.Collections.Generic.IEnumerable{Javirs.Common.IO.ExcelSheetContext})">
+            <summary>
+            EXCEL表格
+            </summary>
+            <param name="table"></param>
+            <param name="contexts"></param>
+        </member>
+        <member name="M:Javirs.Common.IO.ExcelSheet.Export(System.IO.Stream)">
+            <summary>
+            导出EXCEL到流
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="T:Javirs.Common.IO.ExcelSheetContext">
+            <summary>
+            表格上下文对象
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.IO.ExcelSheetContext.ColumnName">
+            <summary>
+            列名
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.IO.ExcelSheetContext.Cell_Title">
+            <summary>
+            映射表头名称
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.IO.ExcelSheetContext.Column_Index">
+            <summary>
+            EXCEL列顺序，从小到大
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.IO.ExcelSheetContext.Ignore">
+            <summary>
+            是否忽略
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.IO.ExcelSheetContext.Converter">
+            <summary>
+            转换单元格值
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.IO.ExcelSheetContext.GetContext(System.String,System.String,System.Int32,System.Boolean,System.Func{System.Object,System.Object})">
+            <summary>
+            创建上下文对象
+            </summary>
+            <param name="columnName">数据库表列名</param>
+            <param name="column_title">列名</param>
+            <param name="column_index">表格列顺序</param>
+            <param name="ignore">是否忽略</param>
+            <param name="converter">值转换委托</param>
+            <returns></returns>
+        </member>
+        <member name="P:Javirs.Common.IO.NPOIExcelBookAttribute.TitleName">
+            <summary>
+            表头
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.IO.NPOIExcelBookAttribute.Ignore">
+            <summary>
+            导出时是否忽略
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.IO.NPOIExcelBookAttribute.Range">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.ISystemUser">
+            <summary>
+            系统用户接口
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.ISystemUser.NodeId">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.ISystemUser.NodeCode">
+            <summary>
+            用户账号
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.ISystemUser.NodeName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.ISystemUser.Email">
+            <summary>
+            用户邮箱
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.ISystemUser.IsConfirmed">
+            <summary>
+            是否认证用户
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.ISystemUser.Isenterprise">
+            <summary>
+            是否企业用户
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.ISystemUser.MobileNo">
+            <summary>
+            手机号码
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.ISystemUser.NodeLevel">
+            <summary>
+            用户等级
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.Json.JsonObject">
+            <summary>
+            JSON解析对象
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.Json.JsonObject._ignoreCase">
+            <summary>
+            是否忽略大小写
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Json.JsonObject.#ctor(System.Collections.Generic.Dictionary{System.String,System.Object},System.String,System.Boolean)">
+            <summary>
+            JSON解析对象
+            </summary>
+            <param name="keyvalueDic"></param>
+            <param name="json"></param>
+            <param name="ignorePropertyCaseSensitive">取属性是否忽略大小写,默认不忽略</param>
+        </member>
+        <member name="M:Javirs.Common.Json.JsonObject.#ctor">
+            <summary>
+            初始化一个空的JsonObject对象
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Json.JsonObject.Parse(System.String,System.Boolean)">
+            <summary>
+            解析JSON字符串
+            </summary>
+            <param name="json"></param>
+            <param name="ignorePropertyCaseSensitive">取属性是否忽略大小写</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Json.JsonObject.Parse(System.String)">
+            <summary>
+            解析JSON字符串,忽略key大小写
+            </summary>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Javirs.Common.Json.JsonObject.Keys">
+            <summary>
+            JSON数据的键集合
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Json.JsonObject.Item(System.String)">
+            <summary>
+            使用键名称获取JSON值
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Json.JsonObject.GetString(System.String)">
+            <summary>
+            获取字符串
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Json.JsonObject.GetArray(System.String)">
+            <summary>
+            获取指定key的集合
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Json.JsonObject.GetObject(System.String)">
+            <summary>
+            获取指定key的json对象
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Json.JsonObject.GetInt(System.String)">
+            <summary>
+            获取指定key的int值
+            </summary>
+            <param name="key">Json键名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Json.JsonObject.GetBoolean(System.String)">
+            <summary>
+            获取指定值的bool值
+            </summary>
+            <param name="key">Json键名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Json.JsonObject.GetDecimal(System.String)">
+            <summary>
+            获取指定key的浮点数值
+            </summary>
+            <param name="key">Json键名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Json.JsonObject.GetDateTime(System.String)">
+            <summary>
+            获取指定key的datetime值
+            </summary>
+            <param name="key">Json键名</param>
+            <returns></returns>
+       >
+            <param name="value"></param>
+        </member>
+        <member name="M:Javirs.Common.Json.JsonObject.Remove(System.String)">
+            <summary>
+            移除指定的Json属性
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:Javirs.Common.Json.JsonObject.ResolveEscapes(System.Text.StringBuilder,System.IO.StringReader)">
+            <summary>
+            处理转义符
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.Json.JsonSerializer">
+            <summary>
+            Json serializer class
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Json.JsonSerializer.JsonSerialize(System.Object)">
+            <summary>
+            use NewtonSoft.Json serialize an object to json data!
+            </summary>
+            <param name="arg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Json.JsonSerializer.JsonSerialize(System.Object,Newtonsoft.Json.JsonSerializerSettings)">
+            <summary>
+            use Newtonsoft.Json to serialize object,specific serialize settings
+            </summary>
+            <param name="arg"></param>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Json.JsonSerializer.Deserializer``1(System.String)">
+            <summary>
+            use NewtonSoft.Json deserialize a json data to an object!
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Javirs.Common.Mails.SmtpMail">
+            <summary>
+            邮件发送程序
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail._charset">
+            <summary>
+            设定语言代码,默认设定为GB2312,如不需要可设置为""
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail._from">
+            <summary>
+            发件人地址
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail._fromName">
+            <summary>
+            发件人姓名
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail._recipientName">
+             <summary>
+             回复邮件地址
+             </summary>
+            public string ReplyTo="";
+            <summary>
+            收件人姓名
+            </summary>	
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail.Recipient">
+            <summary>
+            收件人列表
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail.mailserver">
+            <summary>
+            邮件服务器域名
+            </summary>	
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail.mailserverport">
+            <summary>
+            邮件服务器端口号
+            </summary>	
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail.username">
+            <summary>
+            SMTP认证时使用的用户名
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail.password">
+            <summary>
+            SMTP认证时使用的密码
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail.ESmtp">
+            <summary>
+            是否需要SMTP验证
+            </summary>		
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail._html">
+            <summary>
+            是否Html邮件
+            </summary>		
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail.Attachments">
+            <summary>
+            邮件附件列表
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail.priority">
+            <summary>
+            邮件发送优先级,可设置为"High","Normal","Low"或"1","3","5"
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail._subject">
+            <summary>
+            邮件主题
+            </summary>		
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail._body">
+            <summary>
+            邮件正文
+            </summary>		
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail.RecipientNum">
+             <summary>
+             密送收件人列表
+             </summary>
+            private Hashtable RecipientBCC=new Hashtable();
+            <summary>
+            收件人数量
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail.recipientmaxnum">
+            <summary>
+            最多收件人数量
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail.errmsg">
+             <summary>
+             密件收件人数量
+             </summary>
+            private int RecipientBCCNum=0;
+            <summary>
+            错误消息反馈
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail.tc">
+            <summary>
+            TcpClient对象,用于连接服务器
+            </summary>	
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail.ns">
+            <summary>
+            NetworkStream对象
+            </summary>	
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail.logs">
+            <summary>
+            服务器交互记录
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail.ErrCodeHT">
+            <summary>
+            SMTP错误代码哈希表
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.Mails.SmtpMail.RightCodeHT">
+            <summary>
+            SMTP正确代码哈希表
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Mails.SmtpMail.Subject">
+            <summary>
+            邮件主题
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Mails.SmtpMail.Body">
+            <summary>
+            邮件正文
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Mails.SmtpMail.From">
+            <summary>
+            发件人地址
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Mails.SmtpMail.Charset">
+            <summary>
+            设定语言代码,默认设定为GB2312,如不需要可设置为""
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Mails.SmtpMail.FromName">
+            <summary>
+            发件人姓名
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Mails.SmtpMail.RecipientName">
+            <summary>
+            收件人姓名
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Mails.SmtpMail.MailDomain">
+            <summary>
+            邮件服务器域名和验证信息
+            形如："user:pass@www.server.com:25",也可省略次要信息。如"user:pass@www.server.com"或"www.server.com"
+            </summary>	
+        </member>
+        <member name="P:Javirs.Common.Mails.SmtpMail.MailDomainPort">
+            <summary>
+            邮件服务器端口号
+            </summary>	
+        </member>
+        <member name="P:Javirs.Common.Mails.SmtpMail.MailServerUserName">
+            <summary>
+            SMTP认证时使用的用户名
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Mails.SmtpMail.MailServerPassWord">
+            <summary>
+            SMTP认证时使用的密码
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Mails.SmtpMail.Priority">
+            <summary>
+            邮件发送优先级,可设置为"High","Normal","Low"或"1","3","5"
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Mails.SmtpMail.Html">
+            <summary>
+             是否Html邮件
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Mails.SmtpMail.ErrorMessage">
+            <summary>
+            错误消息反馈
+            </summary>		
+        </member>
+        <member name="P:Javirs.Common.Mails.SmtpMail.Logs">
+            <summary>
+            服务器交互记录
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Mails.SmtpMail.RecipientMaxNum">
+            <summary>
+            最多收件人数量
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Mails.SmtpMail.AddAttachment(System.String[])">
+            <summary>
+            添加邮件附件
+            </summary>
+            <param name="FilePath">附件绝对路径</param>
+        </member>
+        <member name="M:Javirs.Common.Mails.SmtpMail.AddRecipient(System.String[])">
+            <summary>
+            添加一组收件人(不超过recipientmaxnum个),参数为字符串数组
+            </summary>
+            <param name="Recipients">保存有收件人地址的字符串数组(不超过recipientmaxnum个)</param>	
+        </member>
+        <member name="M:Javirs.Common.Mails.SmtpMail.Send">
+            <summary>
+            发送邮件方法,所有参数均通过属性设置。
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Mails.SmtpMail.Send(System.String)">
+            <summary>
+            发送邮件方法
+            </summary>
+            <param name="smtpserver">smtp服务器信息,如"username:password@www.smtpserver.com:25",也可去掉部分次要信息,如"www.smtpserver.com"</param>
+        </member>
+        <member name="M:Javirs.Common.Mails.SmtpMail.Send(System.String,System.String,System.String,System.String,System.String,System.Boolean,System.String,System.String)">
+            <summary>
+            发送邮件方法
+            </summary>
+            <param name="smtpserver">smtp服务器信息,如"username:password@www.smtpserver.com:25",也可去掉部分次要信息,如"www.smtpserver.com"</param>
+            <param name="from">发件人mail地址</param>
+            <param name="fromname">发件人姓名</param>
+            <param name="to">收件人地址</param>
+            <param name="toname">收件人姓名</param>
+            <param name="html">是否HTML邮件</param>
+            <param name="subject">邮件主题</param>
+            <param name="body">邮件正文</param>
+        </member>
+        <member name="M:Javirs.Common.Mails.SmtpMail.AddRecipient(System.String)">
+            <summary>
+            添加一个收件人
+            </summary>	
+            <param name="Recipients">收件人地址</param>
+        </member>
+        <member name="M:Javirs.Common.Mails.SmtpMail.SMTPCodeAdd">
+            <summary>
+            SMTP回应代码哈希表
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Mails.SmtpMail.Base64Encode(System.String)">
+            <summary>
+            将字符串编码为Base64字符串
+            </summary>
+            <param name="str">要编码的字符串</param>
+        </member>
+        <member name="M:Javirs.Common.Mails.SmtpMail.Base64Decode(System.String)">
+            <summary>
+            将Base64字符串解码为普通字符串
+            </summary>
+            <param name="str">要解码的字符串</param>
+        </member>
+        <member name="M:Javirs.Common.Mails.SmtpMail.GetStream(System.String)">
+            <summary>
+            得到上传附件的文件流
+            </summary>
+            <param name="FilePath">附件的绝对路径</param>
+        </member>
+        <member name="M:Javirs.Common.Mails.SmtpMail.SendCommand(System.String)">
+            <summary>
+            发送SMTP命令
+            </summary>	
+        </member>
+        <member name="M:Javirs.Common.Mails.SmtpMail.RecvResponse">
+            <summary>
+            接收SMTP服务器回应
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Mails.SmtpMail.Dialog(System.String,System.String)">
+            <summary>
+            与服务器交互,发送一条命令并接收回应。
+            </summary>
+            <param name="str">一个要发送的命令</param>
+            <param name="errstr">如果错误,要反馈的信息</param>
+        </member>
+        <member name="M:Javirs.Common.Mails.SmtpMail.Dialog(System.String[],System.String)">
+            <summary>
+            与服务器交互,发送一组命令并接收回应。
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Mails.SmtpMail.SendEmail">
+            <summary>
+            SendEmail
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Javirs.Common.Net.CertificationInfo">
+            <summary>
+            SSL证书信息
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Net.CertificationInfo.Path">
+            <summary>
+            证书存放地址
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Net.CertificationInfo.Password">
+            <summary>
+            证书访问密码
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.Net.HttpHelper">
+            <summary>
+            http帮助类，主要用于post文件，也可以post常规表单
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Net.HttpHelper.#ctor(System.String)">
+            <summary>
+            初始化Http帮助类，默认UTF8编码
+            </summary>
+            <param name="url"></param>
+        </member>
+        <member name="M:Javirs.Common.Net.HttpHelper.#ctor(System.String,System.Text.Encoding)">
+            <summary>
+            初始化http帮助类
+            </summary>
+            <param name="url"></param>
+            <param name="encoding"></param>
+        </member>
+        <member name="M:Javirs.Common.Net.HttpHelper.AddHeaderData(System.String,System.String)">
+            <summary>
+            添加Http头信息
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Javirs.Common.Net.HttpHelper.AddPostData(Javirs.Common.Net.IPostData)">
+            <summary>
+            添加Post表单数据
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:Javirs.Common.Net.HttpHelper.AddPostData(System.String,System.Object)">
+            <summary>
+            添加常规表单数据
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Javirs.Common.Net.HttpHelper.AddPostData(System.Collections.Generic.IEnumerable{Javirs.Common.Net.IPostData})">
+            <summary>
+            批量添加表单数据，可以是常规表单，也可以是带文件的表单，也可以是混合表单
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:Javirs.Common.Net.HttpHelper.AddCookie(System.Net.Cookie)">
+            <summary>
+            添加Cookie
+            </summary>
+            <param name="cookie"></param>
+        </member>
+        <member name="P:Javirs.Common.Net.HttpHelper.Certification">
+            <summary>
+            证书地址
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Net.HttpHelper.SslCallback">
+            <summary>
+            SSL请求的回调认证
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Net.HttpHelper.Post">
+            <summary>
+            上传数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Javiummary>
+        </member>
+        <member name="P:Javirs.Common.Net.HttpHelper.SslCallback">
+            <summary>
+            SSL请求的回调认证
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Net.HttpHelper.Post">
+            <summary>
+            上传数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Net.HttpHelper.GetResponse">
+            <summary>
+            获取http响应的更多信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Net.HttpHelper.Post(System.String,System.Int32,System.Boolean)">
+            <summary>
+            提交POST请求
+            </summary>
+            <param name="s">POST数据</param>
+            <param name="timeout">超时时间,单位秒</param>
+            <param name="isUseCert">是否使用证书</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Net.HttpHelper.Post(System.String,System.Boolean)">
+            <summary>
+            提交POST请求，默认20秒超时时间
+            </summary>
+            <param name="s">POST数据</param>
+            <param name="isUseCert">是否使用证书</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Net.HttpHelper.Post(System.String,System.Int32,System.Boolean,System.String)">
+            <summary>
+            获取POST请求结果
+            </summary>
+            <param name="s">post数据</param>
+            <param name="timeout">超时时间，单位为秒</param>
+            <param name="isUseCert">是否使用证书，如需使用证书请设置Certificate证书信息</param>
+            <param name="content_type">请求内容类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Net.HttpHelper.Post(System.Byte[],System.String,System.Int32,System.Boolean)">
+            <summary>
+            直接post字节数组
+            </summary>
+            <param name="buffer"></param>
+            <param name="contentType"></param>
+            <param name="timeout"></param>
+            <param name="isUseCert"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Net.HttpHelper.SendRequest(System.String,System.Byte[],System.Int32,System.Boolean,System.String)">
+            <summary>
+            发送请求
+            </summary>
+            <param name="method"></param>
+            <param name="buffer"></param>
+            <param name="contentType"></param>
+            <param name="timeout"></param>
+            <param name="isUseCert"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Net.HttpHelper.Post(System.Object)">
+            <summary>
+            向http接口post数据
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Net.HttpHelper.Get(System.String)">
+            <summary>
+            使用Get方式
+            </summary>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Net.HttpHelper.GetFile">
+            <summary>
+            下载，使用GET
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Javirs.Common.Net.HttpHelper.StatusCode">
+            <summary>
+            Http状态码
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Net.HttpHelper.CheckValidationResult(System.Object,System.Security.Cryptography.X509Certificates.X509Certificate,System.Security.Cryptography.X509Certificates.X509Chain,System.Net.Security.SslPolicyErrors)">
+            <summary>
+            
+            </summary>
+            <param name="sender"></param>
+            <param name="certificate"></param>
+            <param name="chain"></param>
+            <param name="errors"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Javirs.Common.Net.HttpHelper.Response">
+            <summary>
+            http请求响应
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Net.HttpHelper.Response.Result">
+            <summary>
+            http请求的字符串结果
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Net.HttpHelper.Response.Buffer">
+            <summary>
+            http请求的字节数组结果
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Net.HttpHelper.Response.StatusCode">
+            <summary>
+            http请求状态码
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Net.HttpHelper.Response.Description">
+            <summary>
+            http请求状态码描述
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Net.HttpHelper.Response.Headers">
+            <summary>
+            响应头信息
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Net.HttpHelper.Response.Cookies">
+            <summary>
+            响应cookie集合
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Net.HttpHelper.Response.Exception">
+            <summary>
+            异常信息
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.Net.ICipherAttribute">
+            <summary>
+            密文处理接口
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Net.ICipherAttribute.Priority">
+            <summary>
+            优先级，当属性被多个<see cref="T:Javirs.Common.Net.ICipherAttribute"/>标记时的执行顺序
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Net.ICipherAttribute.Encrypt(System.String)">
+            <summary>
+            加密
+            </summary>
+            <param name="plainText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Net.ICipherAttribute.Decrypt(System.String)">
+            <summary>
+            解密
+            </summary>
+            <param name="encStr"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Javirs.Common.PerformanceMonitor">
+            <summary>
+            性能监视器
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.PerformanceMonitor.#ctor(System.Action{System.String,System.TimeSpan})">
+            <summary>
+            性能监视器
+            </summary>
+            <param name="action"></param>
+        </member>
+        <member name="M:Javirs.Common.PerformanceMonitor.#ctor">
+            <summary>
+            性能监视器
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.PerformanceMonitor.CheckPoint(System.String)">
+            <summary>
+            创建一个检查点
+            </summary>
+            <param name="checkpointName"></param>
+        </member>
+        <member name="M:Javirs.Common.PerformanceMonitor.ToString">
+            <summary>
+            输出监视器内容
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Javirs.Common.ProviderContainer">
+            <summary>
+            程序配置管理
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.ProviderContainer.Register``1(System.Boolean)">
+            <summary>
+            注册应用程序，建议注册的类型T包含无参构造，否则无法调用GetProvider获取实例，若不包含无参构造请使用Find找到类型，然后自行初始化实例
+            </summary>
+            <param name="force">是否强制注册，若程序已被注册，重复注册默认忽略。若需强制重复注册，请指定force参数为true</param>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Javirs.Common.ProviderContainer.Find``1">
+            <summary>
+            查找T程序是否有注册
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.ProviderContainer.FindAll``1">
+            <summary>
+            获取所有注册的T程序
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.ProviderContainer.GetProvider``1">
+            <summary>
+            获得注册的应用程序实例
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.ProviderContainer.GetProviders``1">
+            <summary>
+            获取全部提供程序
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.ProviderContainer.IsEqualsOrInherits``1(System.Type)">
+            <summary>
+            是否相等或者继承自T
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.AesCryptoProvider.Encrypt(System.Byte[])">
+            <summary>
+            加密
+            </summary>
+            <param name="plainBytes">明文字节数组</param>
+            <returns>返回密文字节数组</returns>
+        </member>
+        <member name="M:Javirs.Common.Security.AesCryptoProvider.Encrypt(System.String)">
+            <summary>
+            加密，使用UTF8编码明文，密文以base64返回
+            </summary>
+            <param name="plainText">明文字符串</param>
+            <returns>base64编码密文</returns>
+        </member>
+        <member name="M:Javirs.Common.Security.AesCryptoProvider.Decrypt(System.Byte[])">
+            <summary>
+            解密
+            </summary>
+            <param name="cipherBytes">密文字节数组</param>
+            <returns>返回明文字节数组</returns>
+        </member>
+        <member name="M:Javirs.Common.Security.AesCryptoProvider.Decrypt(System.String)">
+            <summary>
+            解密
+            </summary>
+            <param name="base64">base64编码的密文</param>
+            <returns>范围UTF8编码明文</returns>
+        </member>
+        <member name="T:Javirs.Common.Security.Base58">
+            <summary>
+            base58加密
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Security.Base58.#cctor">
+            <summary>
+            base58加密
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Security.Base58.Encode(System.Byte[])">
+            <summary>
+            base58加密
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.Base58.Decode(System.String)">
+            <summary>
+            base58解密
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Javirs.Common.Security.DesEncodeDecode">
+            <summary>
+            单倍DES加密
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Security.DesEncodeDecode.#ctor(System.String)">
+            <summary>
+            DES加解密
+            </summary>
+            <param name="deskey">ASCII编码密钥</param>
+        </member>
+        <member name="M:Javirs.Common.Security.DesEncodeDecode.#ctor(System.String,System.Security.Cryptography.CipherMode,System.Security.Cryptography.PaddingMode)">
+            <summary>
+            DES加解密
+            </summary>
+            <param name="deskey">ASCII编码密钥</param>
+            <param name="cipherMode">密文加密模式</param>
+            <param name="paddingMode">填充模式</param>
+        </member>
+        <member name="M:Javirs.Common.Security.DesEncodeDecode.#ctor(System.String,System.Security.Cryptography.CipherMode,System.Security.Cryptography.PaddingMode,System.Boolean)">
+            <summary>
+            DES加解密
+            </summary>
+            <param name="deskey"></param>
+            <param name="cipherMode"></param>
+            <param name="paddingMode"></param>
+            <param name="isHexKey"></param>
+        </member>
+        <member name="M:Javirs.Common.Security.DesEncodeDecode.#ctor(System.String,System.Security.Cryptography.CipherMode,System.Security.Cryptography.PaddingMode,System.Boolean,System.Text.Encoding)">
+            <summary>
+            DES加解密
+            </summary>
+            <param name="deskey"></param>
+            <param name="cipherMode"></param>
+            <param name="paddingMode"></param>
+            <param name="isHexKey"></param>
+            <param name="encoding"></param>
+        </member>
+        <member name="M:Javirs.Common.Security.DesEncodeDecode.DesEncrypt(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="p_strInput"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.DesEncodeDecode.DesEncrypt(System.Byte[])">
+            <summary>
+            DES加密
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.DesEncodeDecode.DesDecrypt(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="p_strInput"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.DesEncodeDecode.DesDecrypt(System.Byte[])">
+            <summary>
+            DES解密
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.IRsa.Decrypt(System.String)">
+            <summary>
+            RSA解密
+            </summary>
+            <param name="value">base64密文</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.IRsa.Decrypt(System.String,System.Text.Encoding)">
+            <summary>
+            RSA解密
+            </summary>
+            <param name="value">base64密文</param>
+            <param name="encoding">编码方式</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.IRsa.Decrypt(System.String,System.Text.Encoding,System.Boolean)">
+            <summary>
+            RSA解密
+            </summary>
+            <param name="value">base64密文</param>
+            <param name="encoding">编码方式</param>
+            <param name="doOAEPPadding">OAE填充</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.IRsa.Decrypt(System.Byte[],System.Boolean)">
+            <summary>
+            解密RSA密文字节数组，返回结果为明文字节数组
+            </summary>
+            <param name="bytes"></param>
+            <param name="doOAEPPadding"></param>
+            <param name="pvtKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.IRsa.Encrypt(System.String)">
+            <summary>
+            RSA加密，使用UTF8,不填充OAE加密
+            </summary>
+            <param name="value">明文</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.IRsa.Encrypt(System.String,System.Text.Encoding)">
+            <summary>
+            RSA加密，不填充OAE加密
+            </summary>
+            <param name="value">明文</param>
+            <param name="encoding">编码方式</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.IRsa.Encrypt(System.String,System.Text.Encoding,System.Boolean)">
+            <summary>
+            RSA加密
+            </summary>
+            <param name="value">明文</param>
+            <param name="encoding">编码方式</param>
+            <param name="doOAEPPadding">是否填充OAE</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.IRsa.Encrypt(System.Byte[],System.Boolean)">
+            <summary>
+            RSA加密字节数组，返回字节数组
+            </summary>
+            <param name="bytes"></param>
+            <param name="doOAEPPadding"></param>
+            <param name="publicKey"></param>
+            <returns></returns>
+        </member>
+        <member name="E:Javirs.Common.Security.IRsa.ErrorOccurs">
+            <summary>
+            错误事件
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Security.IRsa.HasPrivateKey">
+            <summary>
+            是否包含私钥
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Security.IRsa.PrivateKey">
+            <summary>
+            私钥XML
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Security.IRsa.PublicKey">
+            <summary>
+            公钥XML
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Security.IRsa.SignData(System.Byte[])">
+            <summary>
+            RSA签名
+            </summary>
+            <param name="buffer">需要签名的数据</param>
+            <param name="althm">签名算法</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.IRsa.VerifyData(System.Byte[],System.Byte[])">
+            <summary>
+            RSA签名验证
+            </summary>
+            <param name="buffer">需要签名的数据</param>
+            <param name="althm">签名算法</param>
+            <param name="signature">需要验证的签名</param>
+            <returns></returns>
+        </member>
+        <member name="T:Javirs.Common.Security.PemCertificate">
+            <summary>
+            PEM证书
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Security.PemCertificate.#ctor">
+            <summary>
+            默认构造
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Security.PemCertificate.ReadFromPemFile(System.String)">
+            <summary>
+            从PEM密钥文件初始化PEM证书
+            </summary>
+            <param name="fullpath"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Javirs.Common.Security.RsaCertificate">
+            <summary>
+            RSA证书对象
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.Security.RsaCertificate._certificate2">
+            <summary>
+            x509的RSA证书对象
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaCertificate.#ctor">
+            <summary>
+            RSA证书对象构造
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaCertificate.#ctor(System.String)">
+            <summary>
+            从本机当前用户证书存储区域读取证书
+            </summary>
+            <param name="certName"></param>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaCertificate.BuildRsaKey(System.String@,System.String@)">
+            <summary>
+            从机器证书存储器创建密钥对
+            </summary>
+            <param name="pvtKey"></param>
+            <param name="pbkKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaCertificate.ReadFromPfx(System.String,System.String)">
+            <summary>
+            从pfx证书文件中读取
+            </summary>
+            <param name="path"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaCertificate.ReadFromCert(System.String)">
+            <summary>
+            从Cert证书文件中读取
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaCertificate.CreateCertificate(System.String,System.String)">
+            <summary>
+            创建证书到本机当前用户的个人证书存储区域
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaCertificate.ExportPfxFile(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            从本机当前用户证书存储区域导出证书
+            </summary>
+            <param name="subject"></param>
+            <param name="pfxFileName"></param>
+            <param name="password"></param>
+            <param name="isDeleteFromStore"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaCertificate.ExportCertFile(System.String,System.String)">
+            <summary>
+            从本机当前用户证书存储区域导出cert证书（即公钥证书）
+            </summary>
+            <param name="subjectName"></param>
+            <param name="cerFileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaCertificate.ExportFile(System.String,System.String,System.String,System.Boolean,System.Security.Cryptography.X509Certificates.X509ContentType)">
+            <summary>
+            从本机当前用户证书存储区域导出证书
+            </summary>
+            <param name="subjectName"></param>
+            <param name="fileName"></param>
+            <param name="password"></param>
+            <param name="isDeleteFromStore"></param>
+            <param name="x509type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaCertificate.CallMakeCert(System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            调用系统MakeCert.exe程序
+            </summary>
+            <param name="makecertPath"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaCertificate.GetCertificateFromStore(System.String)">
+            <summary>
+            从本机当前用户的个人证书存储区域读取证书
+            </summary>
+            <param name="subjectName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaCertificate.GetMakecertArgs(System.String,System.Int32)">
+            <summary>
+            构造MakeCert程序参数
+            </summary>
+            <param name="x509name"></param>
+            <param name="expireMonth"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaCertificate.JoinMakecertParams(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            连结参数成字符串
+            </summary>
+            <param name="args">The args.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaCertificate.WriteToFile(System.Byte[],System.String)">
+            <summary>
+            写入文件
+            </summary>
+            <param name="buffer"></param>
+            <param name="fileName"></param>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaCertificate.GetCertificateID">
+            <summary>
+            证书ID
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.Security.RsaKeyHelper">
+            <summary>
+            RSA密钥帮助类
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaKeyHelper.#ctor(Org.BouncyCastle.Crypto.AsymmetricCipherKeyPair)">
+            <summary>
+            RSA密钥帮助类
+            </summary>
+            <param name="keys"></param>
+        </member>
+        <member name="P:Javirs.Common.Security.RsaKeyHelper.Private">
+            <summary>
+            私钥
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Security.RsaKeyHelper.Public">
+            <summary>
+            公钥
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Security.RsaKeyHelper.Keys">
+            <summary>
+            密钥对
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Security.RsaKeyHelper.Format">
+            <summary>
+            密钥格式，默认PKCS1
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaKeyHelper.ToXmlString(System.Boolean)">
+            <summary>
+            转换为xml密钥
+            </summary>
+            <param name="includePrivate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaKeyHelper.EncryptByPrivate(System.Byte[])">
+            <summary>
+            私钥加密
+            </summary>
+            <param name="cipher"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaKeyHelper.DecryptByPublic(System.Byte[])">
+            <summary>
+            公钥解密
+            </summary>
+            <param name="buffer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaKeyHelper.ConvertTo(Javirs.Common.Security.RsaKeyHelper.KeyFormat)">
+            <summary>
+            转换密钥格式
+            </summary>
+            <param name="format"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaKeyHelper.GenRsaKey(System.Int32)">
+            <summary>
+            生成RSA密钥
+            </summary>
+            <param name="size">1024或2048</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaKeyHelper.FromPemPrivateKey(System.String,Javirs.Common.Security.RsaKeyHelper.KeyFormat)">
+            <summary>
+            从私钥字符串初始化
+            </summary>
+            <param name="privateKey"></param>
+            <param name="format"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaKeyHelper.FromXmlKey(System.String)">
+            <summary>
+            从xml密钥初始化
+            </summary>
+            <param name="xmlPrivateKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaKeyHelper.FormatPublicKey(System.String)">
+            <summary>
+            Format public key
+            </summary>
+            <param name="publicString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaKeyHelper.RemoveKeyStringFormat(System.String,Javirs.Common.Security.RsaKeyHelper.KeyFormat)">
+            <summary>
+            Remove the Pkcs1 format private key format
+            </summary>
+            <param name="keyString"></param>
+            <param name="format"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaKeyHelper.PrivateKeyToXml(Org.BouncyCastle.Crypto.Parameters.RsaPrivateCrtKeyParameters,System.Boolean)">
+            <summary>
+            Private Key Convert to xml
+            </summary>
+            <param name="parameters"></param>
+            <param name="includePrivate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaKeyHelper.PublicToXml(System.String)">
+            <summary>
+            PEM公钥转为xml公钥
+            </summary>
+            <param name="pemPublicKeyString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaKeyHelper.PublicXmlToPem(System.String)">
+            <summary>
+            xml公钥转为pem格式
+            </summary>
+            <param name="xml"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Javirs.Common.Security.RsaKeyHelper.KeyFormat">
+            <summary>
+            密钥格式
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.Security.RsaKeyHelper.KeyFormat.pkcs1">
+            <summary>
+            pkcs1
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.Security.RsaKeyHelper.KeyFormat.pkcs8">
+            <summary>
+            pkcs8
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.Security.RSAServiceProvider">
+            <summary>
+            RSA加密服务提供类
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.Security.RSAServiceProvider._provider">
+            <summary>
+            .NET内置RSA加解密对象
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.#ctor">
+            <summary>
+            初始化RSAServiceProvider实例
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.#ctor(System.Security.Cryptography.RSACryptoServiceProvider)">
+            <summary>
+            使用一个RSACryptoServiceProvider初始化实例
+            </summary>
+            <param name="provider">内置RSA加解密对象</param>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.#ctor(System.String)">
+            <summary>
+            使用XML密钥字符串初始化实例
+            </summary>
+            <param name="xmlKey">xml密钥字符串</param>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.Decrypt(System.String)">
+            <summary>
+            解密，默认UTF8编码方式
+            </summary>
+            <param name="value">需要解密的base64密文</param>
+            <returns>解密出来的明文</returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.Decrypt(System.String,System.Text.Encoding)">
+            <summary>
+            解密，使用指定的编码方式解密
+            </summary>
+            <param name="value">需要解密的BASE64密文</param>
+            <param name="encoding">编码方式</param>
+            <returns>解密出来的明文</returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.Decrypt(System.String,System.Text.Encoding,System.Boolean)">
+            <summary>
+            解密，使用指定的编码方式与填充方式进行解密
+            </summary>
+            <param name="value">需要解密的base64密文</param>
+            <param name="encoding">编码方式</param>
+            <param name="doOAEPPadding">是否进行OAEP填充</param>
+            <returns>解密出来的明文</returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.Decrypt(System.Byte[],System.Boolean)">
+            <summary>
+            解密，指定是否使用OAEP填充方式解密
+            </summary>
+            <param name="bytes">需要解密的字节组，如大于密钥字节长度实行分段解密</param>
+            <param name="doOAEPPadding">是否使用OAEP填充</param>
+            <returns>解密的明文字节组</returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.Encrypt(System.String)">
+            <summary>
+            加密，默认使用UTF8编码方式加密
+            </summary>
+            <param name="value">需要加密的明文</param>
+            <returns>密文字节组的base64格式</returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.Encrypt(System.String,System.Text.Encoding)">
+            <summary>
+            加密，使用指定的编码格式
+            </summary>
+            <param name="value">需要加密的明文，如大于密钥字节长度，会实行分段加密</param>
+            <param name="encoding"></param>
+            <returns>密文字节组的base64格式</returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.Encrypt(System.String,System.Text.Encoding,System.Boolean)">
+            <summary>
+            加密
+            </summary>
+            <param name="value">需要加密的明文，如大于密钥字节长度，会实行分段加密</param>
+            <param name="encoding">编码方式</param>
+            <param name="doOAEPPadding">是否使用OAEP填充</param>
+            <returns>密文字节组的base64格式</returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.Encrypt(System.Byte[],System.Boolean)">
+            <summary>
+            加密
+            </summary>
+            <param name="bytes">需要加密的明文字节组，如大于密钥字节长度，会实行分段加密</param>
+            <param name="doOAEPPadding">是否使用OAEP填充</param>
+            <returns>密文字节组</returns>
+        </member>
+        <member name="E:Javirs.Common.Security.RSAServiceProvider.ErrorOccurs">
+            <summary>
+            错误发生时提供外部订阅的事件
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.OnErrorOccurs(System.Exception)">
+            <summary>
+            发送事件订阅通知
+            </summary>
+            <param name="ex"></param>
+        </member>
+        <member name="P:Javirs.Common.Security.RSAServiceProvider.HasPrivateKey">
+            <summary>
+            密钥是否包含私钥
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Security.RSAServiceProvider.PrivateKey">
+            <summary>
+            私钥的xml格式字符串
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Security.RSAServiceProvider.PublicKey">
+            <summary>
+            公钥的xml格式字符串
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.SignData(System.Byte[])">
+            <summary>
+            使用RSA私钥对数据进行签名，PKCS#1签名
+            </summary>
+            <param name="buffer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.VerifyData(System.Byte[],System.Byte[])">
+            <summary>
+            使用RSA公钥对数据进行签名验证,MD5算法
+            </summary>
+            <param name="buffer"></param>
+            <param name="signature"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.VerifyData(System.Byte[],System.Byte[],System.String)">
+            <summary>
+            使用RSA公钥进行签名验证,PKCS#1签名验证
+            </summary>
+            <param name="buffer"></param>
+            <param name="signature"></param>
+            <param name="algorithm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.RSA(System.Byte[],System.Byte[],System.Byte[])">
+            <summary>
+            RSA标准算法，不涉及任何填充规则
+            </summary>
+            <param name="data"></param>
+            <param name="E"></param>
+            <param name="M"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.RemovePadding(System.Byte[])">
+            <summary>
+            移除PKCS#1填充内容
+            </summary>
+            <param name="buffer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.AddPKCS1Padding(System.Byte[],System.Int32,System.Boolean)">
+            <summary>
+            添加PKCS#1填充
+            <para>EM = 0x00 + BT + PS + 0x00 + 明文</para>
+            <para>其中PS至少需要8个字节长度</para>
+            </summary>
+            <param name="buffer">需要加密数据</param>
+            <param name="keysize">密钥字节长度</param>
+            <param name="isPublicKey">使用使用公钥规则填充</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.Encrypt(System.Byte[],System.Boolean,System.Boolean)">
+            <summary>
+            RSA加密，使用公钥或者私钥加密都可以
+            </summary>
+            <param name="data">需要加密的数据</param>
+            <param name="doOAEPPadding">是否进行OAEP填充</param>
+            <param name="usePublicKey">是否使用公钥加密</param>
+            <returns>密文字节组</returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.Decrypt(System.Byte[],System.Boolean,System.Boolean)">
+            <summary>
+            解密，使用公钥或私钥解密都可以
+            </summary>
+            <param name="data">需要解密的数据</param>
+            <param name="doOAEPPadding">是否有进行OAEP填充</param>
+            <param name="usePublicKey">是否使用公钥解密</param>
+            <returns>解密的明文字节组</returns>
+        </member>
+        <member name="T:Javirs.Common.Security.TripleDesEncodeDecode">
+            <summary>
+            3des加密解密
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Security.TripleDesEncodeDecode.TwiceDesEncrypt(System.String,System.String)">
+            <summary>
+            3des双倍长加密字符串版本
+            </summary>
+            <param name="key"></param>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.TripleDesEncodeDecode.TwiceDesEncrypt(System.Byte[],System.Byte[],System.Byte[])">
+            <summary>
+            3des二倍长加密
+            </summary>
+            <param name="key"></param>
+            <param name="iv"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.TripleDesEncodeDecode.TwiceDesDescrypt(System.Byte[],System.Byte[],System.Byte[])">
+            <summary>
+            3des二倍长解密
+            </summary>
+            <param name="key"></param>
+            <param name="iv"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.TripleDesEncodeDecode.DecryptECB(System.Byte[],System.Byte[],System.Byte[])">
+            <summary>
+            ECB解密
+            </summary>
+            <param name="encryptedDataBytes"></param>
+            <param name="keys"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.TripleDesEncodeDecode.EncryptECB(System.Byte[],System.Byte[],System.Byte[],System.Security.Cryptography.CipherMode,System.Security.Cryptography.PaddingMode)">
+            <summary>
+            ECB加密
+            </summary>
+            <param name="sourceDataBytes"></param>
+            <param name="keys"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Javirs.Common.TimeStamp">
+            <summary>
+            时间戳对象
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.TimeStamp.#ctor">
+            <summary>
+            时间戳
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.TimeStamp.op_Implicit(System.DateTime)~Javirs.Common.TimeStamp">
+            <summary>
+            DateTime的隐式转换
+            </summary>
+            <param name="time"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.TimeStamp.op_Implicit(System.Double)~Javirs.Common.TimeStamp">
+            <summary>
+            double的隐式转换
+            </summary>
+            <param name="seconds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.TimeStamp.op_Implicit(Javirs.Common.TimeStamp)~System.Double">
+            <summary>
+            时间戳到double的隐式转换
+            </summary>
+            <param name="ts"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Javirs.Common.TimeStamp.Seconds">
+            <summary>
+            秒数
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.TimeStamp.LocalDate">
+            <summary>
+            时间戳对应的时间
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.TimeStamp.UtcDate">
+            <summary>
+            UTC时间
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.Utils">
+            <summary>
+            工具类
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Utils.GetEnumJson(System.Type)">
+            <summary>
+            将枚举转换成Json字符串
+            </summary>
+            <param name="enumType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Utils.GetEnumValueDisplayText(System.Type,System.Object)">
+            <summary>
+            获取枚举的显示文本
+            </summary>
+            <param name="enumType"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Utils.ShowEnumAsHtml(System.Type,System.Object)">
+            <summary>
+            展示枚举在HTML前端页面
+            </summary>
+            <param name="enumType"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Utils.GetLocalIP">
+            <summary>
+            获取本机IP
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Utils.GetLocalIPV4">
+            <summary>
+            获取本机IPV4地址
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Javirs.Common.IgnoreAttribute">
+            <summary>
+            忽略
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.DisplayTextAttribute">
+            <summary>
+            显示文本
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.DisplayTextAttribute.Text">
+            <summary>
+            前端展示文本
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.DisplayTextAttribute.Color">
+            <summary>
+            字体颜色
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.DisplayTextAttribute.HtmlTag">
+            <summary>
+            html标签
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.DisplayTextAttribute.ClassName">
+            <summary>
+            css类名
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.Xml.CDataXmlWriter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Xml.CDataXmlWriter.#ctor(System.IO.Stream,System.Text.Encoding)">
+            <summary>
+            XML完整标签Writer
+            </summary>
+            <param name="stream">需要写入的流</param>
+        </member>
+        <member name="M:Javirs.Common.Xml.CDataXmlWriter.#ctor(System.IO.Stream,System.Xml.XmlWriterSettings)">
+            <summary>
+            XML完整标签Writer
+            </summary>
+            <param name="stream">需要写入的流</param>
+            <param name="settings">xml序列化配置</param>
+        </member>
+        <member name="M:Javirs.Common.Xml.CDataXmlWriter.WriteString(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="text"></param>
+        </member>
+        <member name="T:Javirs.Common.Xml.FullTagXmlWriter">
+            <summary>
+            完整标签xml写入对象
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Xml.FullTagXmlWriter.#ctor(System.IO.Stream,System.Text.Encoding)">
+            <summary>
+            XML完整标签Writer
+            </summary>
+            <param name="stream">需要写入的流</param>
+        </member>
+        <member name="M:Javirs.Common.Xml.FullTagXmlWriter.#ctor(System.IO.Stream,System.Xml.XmlWriterSettings)">
+            <summary>
+            XML完整标签Writer
+            </summary>
+            <param name="stream">需要写入的流</param>
+            <param name="settings">xml序列化配置</param>
+        </member>
+        <member name="P:Javirs.Common.Xml.FullTagXmlWriter.Settings">
+            <summary>
+            序列化设置
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Xml.FullTagXmlWriter.Standalone">
+            <summary>
+            文档声明是否包含standone属性
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Xml.FullTagXmlWriter.WriteStartDocument">
+            <summary>
+            写入文档声明
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Xml.FullTagXmlWriter.WriteStartDocument(System.Boolean)">
+            <summary>
+            写入文档声明
+            </summary>
+            <param name="standalone"></param>
+        </member>
+        <member name="M:Javirs.Common.Xml.FullTagXmlWriter.WriteEndElement">
+            <summary>
+            写入结束标签
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Xml.FullTagXmlWriter.WriteString(System.String)">
+            <summary>
+            写入字符串
+            </summary>
+            <param name="text"></param>
+        </member>
+        <member name="M:Javirs.Common.Xml.FullTagXmlWriter.WriteRaw(System.String)">
+            <summary>
+            写入原字符串
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="P:Javirs.Common.Xml.XmlSerializeSetting.OutputDeclaretion">
+            <summary>
+            是否输出XML格式版本声明
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Xml.XmlSerializeSetting.OutputNamespace">
+            <summary>
+            是否输出命名空间
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Xml.XmlSerializeSetting.IsFullTag">
+            <summary>
+            是否启用完整标签。 闭合标签&lt;text /&gt;，完整标签&lt;text&gt;&lt;/text&gt;
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Xml.XmlSerializeSetting.Standalone">
+            <summary>
+            是否在xml声明头加入Standalone属性
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Xml.XmlSerializeSetting.IsOutputCData">
+            <summary>
+            是否输出&lt;![CDATA[ text ]]&gt;
+            </summary>
+        </member>
+    </members>
+</doc>
