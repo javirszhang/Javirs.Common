@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Net.Security;
@@ -16,7 +17,7 @@ namespace Javirs.Common.Net
     /// <summary>
     /// http帮助类，主要用于post文件，也可以post常规表单
     /// </summary>
-    [DebuggerDisplay("Url={_requestData.Url},Encoding={_requestData.Encoding},StatusCode={StatusCode}")]
+    [DebuggerDisplay("Url={_requestData.Url},Encoding={_requestData.Encoding.EncodingName},StatusCode={StatusCode}")]
     public class HttpHelper
     {
         private Request _requestData;
@@ -123,15 +124,27 @@ namespace Javirs.Common.Net
         /// <summary>
         /// 上传数据
         /// </summary>
+        /// <param name="timeout">超时时间，单位秒</param>
+        /// <param name="isUseCert">是否使用证书</param>
         /// <returns></returns>
-        public string Post()
+        public string Post(int timeout, bool isUseCert)
         {
             this._requestData.Method = "POST";
+            this._requestData.UseCert = isUseCert;
+            this._requestData.Timeout = timeout;
             using (this._requestData)
             {
                 this._responseData = this._requestData.GetResponse();
                 return this._responseData.Result;
             }
+        }
+        /// <summary>
+        /// 上送数据
+        /// </summary>
+        /// <returns></returns>
+        public string Post()
+        {
+            return Post(120, false);
         }
         /// <summary>
         /// 获取http响应的更多信息
@@ -520,7 +533,7 @@ namespace Javirs.Common.Net
                         byte[] filebytes = data.Value as byte[];
                         if (filebytes == null)
                             continue;
-                        string contenttype = "image/gif";
+                        string contenttype = string.IsNullOrEmpty(ipfd.ContentType) ? "image/gif" : ipfd.ContentType;
                         postBuffer.AddRange(bytesBoundary);
                         string filedataComposite = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
                         byte[] compositeBytes = this.Encoding.GetBytes(string.Format(filedataComposite, data.Name, ipfd.FileName, contenttype));
@@ -679,7 +692,47 @@ namespace Javirs.Common.Net
                 {
                     if (string.IsNullOrEmpty(_result) && this.Buffer != null && this.Buffer.Length > 0)
                     {
-                        _result = encoding.GetString(this.Buffer);
+                        string contentEncoding = null;
+                        if (this.Headers.ContainsKey("Content-Encoding"))
+                        {
+                            contentEncoding = this.Headers["Content-Encoding"];
+                        }
+                        if (string.IsNullOrEmpty(contentEncoding))
+                        {
+                            _result = encoding.GetString(this.Buffer);
+                        }
+                        else if (contentEncoding.ToLower() == "gzip")
+                        {
+                            using (GZipStream gzip = new GZipStream(new MemoryStream(this.Buffer), CompressionMode.Decompress))
+                            {
+                                List<byte> final = new List<byte>();
+                                byte[] tmp = new byte[1024];
+                                int len = 0;
+                                while ((len = gzip.Read(tmp, 0, tmp.Length)) > 0)
+                                {
+                                    final.AddRange(tmp.Take(len));
+                                }
+                                _result = encoding.GetString(final.ToArray());
+                            }
+                        }
+                        else if (contentEncoding.ToLower() == "deflate")
+                        {
+                            using (DeflateStream deflate = new DeflateStream(new MemoryStream(this.Buffer), CompressionMode.Decompress))
+                            {
+                                List<byte> final = new List<byte>();
+                                byte[] tmp = new byte[1024];
+                                int len = 0;
+                                while ((len = deflate.Read(tmp, 0, tmp.Length)) > 0)
+                                {
+                                    final.AddRange(tmp.Take(len));
+                                }
+                                _result = encoding.GetString(final.ToArray());
+                            }
+                        }
+                        else
+                        {
+                            Description = $"未实现压缩算法[{contentEncoding}]的解压方法";
+                        }
                     }
                     return _result;
                 }

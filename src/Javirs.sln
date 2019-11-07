@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.572
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Javirs.Common", "Javirs.Common\Javirs.Common.csproj", "{7DEC1CA9-18EC-4EFB-88CB-1EAA563D8A93}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Javirs.Common.Tests", "Javirs.Common.Tests\Javirs.Common.Tests.csproj", "{958AAB91-54F5-4122-9A76-B746F4F61277}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Javirs.Common.CoreUnitTest", "Javirs.Common.CoreUnitTest\Javirs.Common.CoreUnitTest.csproj", "{FC18CB3E-D66F-46FD-B12C-7108CD06DE7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{958AAB91-54F5-4122-9A76-B746F4F61277}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{958AAB91-54F5-4122-9A76-B746F4F61277}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{958AAB91-54F5-4122-9A76-B746F4F61277}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC18CB3E-D66F-46FD-B12C-7108CD06DE7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC18CB3E-D66F-46FD-B12C-7108CD06DE7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC18CB3E-D66F-46FD-B12C-7108CD06DE7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC18CB3E-D66F-46FD-B12C-7108CD06DE7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

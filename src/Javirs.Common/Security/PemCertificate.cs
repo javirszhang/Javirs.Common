@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Javirs.Common.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,10 +13,13 @@ namespace Javirs.Common.Security
     /// </summary>
     public class PemCertificate : RSAServiceProvider, IRsa
     {
-        const string PEM_PRIVATE_KEY_HEADER = "-----BEGIN RSA PRIVATE KEY-----";
-        const string PEM_PRIVATE_KEY_FOOTER = "-----END RSA PRIVATE KEY-----";
+        const string PKCS1_PRIVATE_KEY_HEADER = "-----BEGIN RSA PRIVATE KEY-----";
+        const string PKCS1_PRIVATE_KEY_FOOTER = "-----END RSA PRIVATE KEY-----";
+        const string PKCS8_PRIVATE_KEY_HEADER = "-----BEGIN PRIVATE KEY-----";
+        const string PKCS8_PRIVATE_KEY_FOOTER = "-----END PRIVATE KEY-----";
         const string PEM_PUBLIC_KEY_HEADER = "-----BEGIN PUBLIC KEY-----";
         const string PEM_PUBLIC_KEY_FOOTER = "-----END PUBLIC KEY-----";
+        const string PEM_CERTIFICATE_HEADER = "-----BEGIN CERTIFICATE-----";
         /// <summary>
         /// 默认构造
         /// </summary>
@@ -24,101 +28,147 @@ namespace Javirs.Common.Security
         /// 从PEM密钥文件初始化PEM证书
         /// </summary>
         /// <param name="fullpath"></param>
+        /// <exception cref="InvalidKeyFormatException"></exception>
         /// <returns></returns>
         public static PemCertificate ReadFromPemFile(string fullpath)
         {
-            PemCertificate pemcert = new PemCertificate();
-            using (System.IO.FileStream fs = System.IO.File.OpenRead(fullpath))
+            using (FileStream fs = File.OpenRead(fullpath))
             {
                 byte[] data = new byte[fs.Length];
-                byte[] res = null;
                 fs.Read(data, 0, data.Length);
                 string pem = Encoding.UTF8.GetString(data);
-                string type = pem.StartsWith(PEM_PRIVATE_KEY_HEADER) ? "RSA PRIVATE KEY" : pem.StartsWith(PEM_PUBLIC_KEY_HEADER) ? "PUBLIC KEY" : "PLAIN TEXT";
-                if (type == "PLAIN TEXT")
-                {
-                    res = Convert.FromBase64String(Encoding.UTF8.GetString(data));
-                }
-                else
-                {
-                    res = GetPem(type, data);
-                }
+                return ReadFromKeyString(pem);
+                //string type = pem.StartsWith(PEM_PRIVATE_KEY_HEADER) ? "RSA PRIVATE KEY" : pem.StartsWith(PEM_PUBLIC_KEY_HEADER) ? "PUBLIC KEY" : "PLAIN TEXT";
+                //if (type == "PLAIN TEXT")
+                //{
+                //    res = Convert.FromBase64String(Encoding.UTF8.GetString(data));
+                //}
+                //else
+                //{
+                //    res = GetPem(type, data);
+                //}
 
-                if (type.Equals("RSA PRIVATE KEY"))//私钥
-                {
-                    pemcert._provider = DecodeRSAPrivateKey(res);
-                }
-                else if (type.Equals("PUBLIC KEY"))
-                {
-                    pemcert._provider = DecodeX509PublicKey(res);
-                }
-                else if (type.Equals("PLAIN TEXT"))
-                {
-                    if (res.Length == 608 || res.Length == 1193) //PKCS#1 PRIVATE KEY,keysize=1024,bytes=608
-                    {
-                        pemcert._provider = DecodeRSAPrivateKey(res);
-                    }
-                    else if (res.Length == 634 || res.Length == 635 || res.Length == 1217 || res.Length == 1218)//ASN.1 PRIVATE KEY
-                    {
-                        pemcert._provider = DecodeASN1PrivateKey(res);
-                    }
-                    else
-                    {
-                        pemcert._provider = DecodeX509PublicKey(res);
-                    }
-                }
-                return pemcert;
+                //if (type.Equals("RSA PRIVATE KEY"))//私钥
+                //{
+                //    pemcert._provider = DecodeRSAPrivateKey(res);
+                //}
+                //else if (type.Equals("PUBLIC KEY"))
+                //{
+                //    pemcert._provider = DecodeX509PublicKey(res);
+                //}
+                //else if (type.Equals("PLAIN TEXT"))
+                //{
+                //    if (res.Length == 608 || res.Length == 1193) //PKCS#1 PRIVATE KEY,keysize=1024,bytes=608
+                //    {
+                //        pemcert._provider = DecodeRSAPrivateKey(res);
+                //    }
+                //    else if (res.Length == 634 || res.Length == 635 || res.Length == 1217 || res.Length == 1218)//ASN.1 PRIVATE KEY
+                //    {
+                //        pemcert._provider = DecodeASN1PrivateKey(res);
+                //    }
+                //    else
+                //    {
+                //        pemcert._provider = DecodeX509PublicKey(res);
+                //    }
+                //}
+                //return pemcert;
             }
         }
-
-        public static PemCertificate ReadFromKeyString(string pem)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="keyString">密钥字符串</param>
+        /// <exception cref="InvalidKeyFormatException"></exception>
+        /// <returns></returns>
+        public static PemCertificate ReadFromKeyString(string keyString)
         {
             PemCertificate pemcert = new PemCertificate();
-            byte[] res = null;
-            string type = pem.StartsWith(PEM_PRIVATE_KEY_HEADER) ? "RSA PRIVATE KEY" : pem.StartsWith(PEM_PUBLIC_KEY_HEADER) ? "PUBLIC KEY" : "PLAIN TEXT";
-            if (type == "PLAIN TEXT")
+            RsaKeyHelper helper = null;
+            if (keyString.StartsWith("-----"))
             {
-                res = Convert.FromBase64String(pem);
+                helper = RsaKeyHelper.FromPemKeyString(keyString);
             }
             else
             {
-                byte[] data = Encoding.UTF8.GetBytes(pem);
-                res = GetPem(type, data);
-            }
-
-            if (type.Equals("RSA PRIVATE KEY"))//私钥
-            {
-                pemcert._provider = DecodeRSAPrivateKey(res);
-            }
-            else if (type.Equals("PUBLIC KEY"))
-            {
-                pemcert._provider = DecodeX509PublicKey(res);
-            }
-            else if (type.Equals("PLAIN TEXT"))
-            {
-                if (res.Length == 608 || res.Length == 611 || res.Length == 1193) //PKCS#1 PRIVATE KEY,keysize=1024,bytes=608
+                //纯密钥文本，不带声明格式
+                keyString = keyString.Replace("\r", "").Replace("\n", "");
+                if (Convert.FromBase64String(keyString).Length < 400)
                 {
-                    pemcert._provider = DecodeRSAPrivateKey(res);
-                }
-                else if (res.Length == 634 || res.Length == 635 || res.Length == 1217 || res.Length == 1218)//ASN.1 PRIVATE KEY
-                {
-                    pemcert._provider = DecodeASN1PrivateKey(res);
+                    keyString = RsaKeyHelper.FormatPublicKey(keyString);
+                    helper = RsaKeyHelper.FromPemKeyString(keyString);
                 }
                 else
                 {
-                    pemcert._provider = DecodeX509PublicKey(res);
-                    if (pemcert._provider == null)
-                    {
-                        pemcert._provider = DecodeRSAPrivateKey(res);
-                        if (pemcert._provider == null)
-                        {
-                            pemcert._provider = DecodeASN1PrivateKey(res);
-                        }
-                    }
+                    helper = TryResolvePrivateKeyWithNoFormatDeclare(keyString, RsaKeyHelper.KeyFormat.pkcs1) ??
+                        TryResolvePrivateKeyWithNoFormatDeclare(keyString, RsaKeyHelper.KeyFormat.pkcs8);
                 }
             }
+            if (helper == null)
+            {
+                throw new InvalidKeyFormatException("无法识别的PEM密钥格式");
+            }
+            pemcert._provider = helper.RSACryptoServiceProvider();
             return pemcert;
+            //byte[] res = null;
+            //string type = pem.StartsWith(PEM_PRIVATE_KEY_HEADER) ? "RSA PRIVATE KEY" : pem.StartsWith(PEM_PUBLIC_KEY_HEADER) ? "PUBLIC KEY" : "PLAIN TEXT";
+            //if (type == "PLAIN TEXT")
+            //{
+            //    res = Convert.FromBase64String(pem);
+            //}
+            //else
+            //{
+            //    byte[] data = Encoding.UTF8.GetBytes(pem);
+            //    res = GetPem(type, data);
+            //}
+
+            //if (type.Equals("RSA PRIVATE KEY"))//私钥
+            //{
+            //    pemcert._provider = DecodeRSAPrivateKey(res);
+            //}
+            //else if (type.Equals("PUBLIC KEY"))
+            //{
+            //    pemcert._provider = DecodeX509PublicKey(res);
+            //}
+            //else if (type.Equals("PLAIN TEXT"))
+            //{
+            //    if (res.Length == 608 || res.Length == 611 || res.Length == 1193) //PKCS#1 PRIVATE KEY,keysize=1024,bytes=608
+            //    {
+            //        pemcert._provider = DecodeRSAPrivateKey(res);
+            //    }
+            //    else if (res.Length == 634 || res.Length == 635 || res.Length == 1217 || res.Length == 1218)//ASN.1 PRIVATE KEY
+            //    {
+            //        pemcert._provider = DecodeASN1PrivateKey(res);
+            //    }
+            //    else
+            //    {
+            //        pemcert._provider = DecodeX509PublicKey(res);
+            //        if (pemcert._provider == null)
+            //        {
+            //            pemcert._provider = DecodeRSAPrivateKey(res);
+            //            if (pemcert._provider == null)
+            //            {
+            //                pemcert._provider = DecodeASN1PrivateKey(res);
+            //            }
+            //        }
+            //    }
+            //}
+            //return pemcert;
         }
+        private static RsaKeyHelper TryResolvePrivateKeyWithNoFormatDeclare(string keyString, RsaKeyHelper.KeyFormat format)
+        {
+            try
+            {
+                string pkcs1 = RsaKeyHelper.FormatPrivateKey(keyString, format);
+                var helper = RsaKeyHelper.FromPemKeyString(pkcs1);
+                helper.RSACryptoServiceProvider();
+                return helper;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        #region obselute
         private static byte[] GetPem(string type, byte[] data)
         {
             string pem = Encoding.UTF8.GetString(data);
@@ -409,12 +459,12 @@ namespace Javirs.Common.Security
             binr.BaseStream.Seek(-1, SeekOrigin.Current);		//last ReadByte wasn't a removed zero, so back up a byte
             return count;
         }
-
+        #endregion
         public static string ToPemString(RSAParameters rsaParams, bool includePrivate)
         {
             MemoryStream ms = new MemoryStream();
             BinaryWriter bw = new BinaryWriter(ms);
-            
+
             if (includePrivate)
             {
                 bw.Write((ushort)0x8230);

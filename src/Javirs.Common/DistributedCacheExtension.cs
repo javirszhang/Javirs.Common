@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+﻿#if netstandard2_0
+using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -88,3 +89,4 @@ namespace Javirs.Common
         }
     }
 }
+#endif

@@ -5,12 +5,13 @@ using System.Text;
 
 namespace Javirs.Common.Net
 {
-    public class PostFileData:PostData,IPostFileData
+    public class PostFileData : PostData, IPostFileData
     {
         public string FileName
         {
             get;
             set;
         }
+        public string ContentType { get; set; }
     }
 }

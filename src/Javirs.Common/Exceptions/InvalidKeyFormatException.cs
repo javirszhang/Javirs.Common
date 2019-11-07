@@ -2,30 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Javirs.Common.Exceptions
 {
     /// <summary>
-    /// 自定义异常，所有自定义的Exception类必须从此类派生，try块优先catch自定义异常，catch到自定义异常允许直接输出message到UI
+    /// 密钥格式不正确
     /// </summary>
-    public class CustomizeException : Exception
+    public class InvalidKeyFormatException : CustomizeException
     {
         /// <summary>
-        /// 自定义异常
+        /// 密钥格式不正确
         /// </summary>
         /// <param name="message"></param>
-        public CustomizeException(string message) : base(message)
+        public InvalidKeyFormatException(string message) : base(message)
         {
         }
         /// <summary>
-        /// 自定义异常
+        /// 密钥格式不正确
         /// </summary>
         /// <param name="message"></param>
         /// <param name="innerEx"></param>
-        public CustomizeException(string message, Exception innerEx) : base(message, innerEx)
+        public InvalidKeyFormatException(string message, Exception innerEx) : base(message, innerEx)
         {
 
         }
+
 
     }
 }

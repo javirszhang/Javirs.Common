@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Javirs.Common.Exceptions;
 using Org.BouncyCastle.Crypto;
@@ -21,79 +23,61 @@ namespace Javirs.Common.Security
     /// </summary>
     public class RsaKeyHelper
     {
-        private string _private, _public;
         /// <summary>
         /// RSA密钥帮助类
         /// </summary>
-        /// <param name="keys"></param>
-        public RsaKeyHelper(AsymmetricCipherKeyPair keys)
+        /// <param name="publicKey"></param>
+        /// <param name="privateKey"></param>
+        public RsaKeyHelper(RsaKeyParameters publicKey, RsaPrivateCrtKeyParameters privateKey)
         {
-            this.Keys = keys;
+            this.Private = privateKey;
+            this.Public = publicKey;
         }
         /// <summary>
         /// 私钥
         /// </summary>
-        public string Private
+        public RsaPrivateCrtKeyParameters Private
         {
-            get
-            {
-                if (string.IsNullOrEmpty(_private))
-                {
-                    _private = GetKeyString(Keys.Private);
-                }
-                return _private;
-            }
+            get; private set;
         }
         /// <summary>
         /// 公钥
         /// </summary>
-        public string Public
+        public RsaKeyParameters Public
         {
-            get
-            {
-                if (string.IsNullOrEmpty(_public))
-                {
-                    _public = GetKeyString(Keys.Public);
-                }
-                return _public;
-            }
+            get; private set;
         }
-        /// <summary>
-        /// 密钥对
-        /// </summary>
-        public AsymmetricCipherKeyPair Keys { get; set; }
-        private KeyFormat _keyFormat = KeyFormat.pkcs1;
         /// <summary>
         /// 密钥格式，默认PKCS1
         /// </summary>
-        public KeyFormat Format
+        public KeyFormat Format { get; set; } = KeyFormat.pkcs1;
+        /// <summary>
+        /// 获取密钥字符串
+        /// </summary>
+        /// <param name="includePrivate"></param>
+        /// <returns></returns>
+        public string GetKeyString(bool includePrivate = false)
         {
-            get
+            if (includePrivate && this.Private == null)
             {
-                return _keyFormat;
+                return null;
             }
-            set
+            object pemObject = includePrivate ? this.Private : this.Public;
+            if (includePrivate && this.Format == KeyFormat.pkcs8)
             {
-                if (_keyFormat == value)
-                {
-                    return;
-                }
-                _keyFormat = value;
-                ResetKeyString();
+                pemObject = new Pkcs8Generator(this.Private);
             }
-        }
-        private string GetKeyString(AsymmetricKeyParameter key)
-        {
-            object pemObject = key;
-            if (key.IsPrivate && this.Format == KeyFormat.pkcs8)
-            {
-                pemObject = new Pkcs8Generator(key);
-            }
-            StringWriter stringWriter = new StringWriter();
-            PemWriter pkcs8PemWriter = new PemWriter(stringWriter);
-            pkcs8PemWriter.WriteObject(pemObject);
-            pkcs8PemWriter.Writer.Flush();
-            return stringWriter.ToString();
+            StringWriter sw = new StringWriter();
+            PemWriter pWrt = new PemWriter(sw);
+            pWrt.WriteObject(pemObject);
+            pWrt.Writer.Close();
+            return sw.ToString();
+
+            //StringWriter sw = new StringWriter();
+            //PemWriter pWrt = new PemWriter(sw);
+            //pWrt.WriteObject(rsaKeyParameters);
+            //pWrt.Writer.Close();
+            //return sw.ToString();
         }
         /// <summary>
         /// 转换为xml密钥
@@ -102,11 +86,11 @@ namespace Javirs.Common.Security
         /// <returns></returns>
         public string ToXmlString(bool includePrivate)
         {
-            if (this.Keys.Private != null)
+            if (this.Private != null)
             {
-                return PrivateKeyToXml((RsaPrivateCrtKeyParameters)this.Keys.Private, includePrivate);
+                return PrivateKeyToXml((RsaPrivateCrtKeyParameters)this.Private, includePrivate);
             }
-            return PublicToXml((RsaKeyParameters)this.Keys.Public);
+            return PublicToXml((RsaKeyParameters)this.Public);
         }
         /// <summary>
         /// 私钥加密
@@ -116,7 +100,7 @@ namespace Javirs.Common.Security
         private byte[] EncryptByPrivate(byte[] cipher)
         {
             IAsymmetricBlockCipher engine = new Pkcs1Encoding(new RsaEngine());
-            engine.Init(true, this.Keys.Private);
+            engine.Init(true, this.Private);
             int blockSize = (engine.GetInputBlockSize() / 8) - 11;
 
             List<byte> result = new List<byte>();
@@ -140,13 +124,8 @@ namespace Javirs.Common.Security
         private byte[] DecryptByPublic(byte[] buffer)
         {
             IAsymmetricBlockCipher engine = new Pkcs1Encoding(new RsaEngine());
-            engine.Init(false, this.Keys.Private);
+            engine.Init(false, this.Public);
             return engine.ProcessBlock(buffer, 0, buffer.Length);
-        }
-        private void ResetKeyString()
-        {
-            _public = null;
-            _private = null;
         }
         /// <summary>
         /// 转换密钥格式
@@ -172,39 +151,68 @@ namespace Javirs.Common.Security
             RsaKeyPairGenerator rsaGen = new RsaKeyPairGenerator();
             rsaGen.Init(new KeyGenerationParameters(new SecureRandom(), size));
             AsymmetricCipherKeyPair keys = rsaGen.GenerateKeyPair();
-            RsaKeyHelper helper = new RsaKeyHelper(keys);
+            RsaKeyHelper helper = new RsaKeyHelper((RsaKeyParameters)keys.Public, (RsaPrivateCrtKeyParameters)keys.Private);
             return helper;
         }
         /// <summary>
         /// 从私钥字符串初始化
         /// </summary>
-        /// <param name="privateKey"></param>
-        /// <param name="format"></param>
+        /// <param name="keyString">密钥字符串，必须带有格式声明</param>
+        /// <param name="password">密码</param>
         /// <returns></returns>
-        public static RsaKeyHelper FromPemPrivateKey(string privateKey, KeyFormat format)
+        public static RsaKeyHelper FromPemKeyString(string keyString, string password = null)
         {
-            if (format == KeyFormat.pkcs1)
+            try
             {
-                privateKey = FormatKeyString(privateKey, format);
-                PemReader reader = new PemReader(new StringReader(privateKey));
-                var keys = reader.ReadObject() as AsymmetricCipherKeyPair;
-                if (keys == null)
+                keyString = FormatKeyString(keyString);
+                PemReader reader = new PemReader(new StringReader(keyString), new MyPasswordFinder("1548699391"));
+                var tmpObj = reader.ReadObject();
+                if (tmpObj is AsymmetricCipherKeyPair keys)//pkcs1 private key
                 {
-                    return null;
+                    return new RsaKeyHelper((RsaKeyParameters)keys.Public, (RsaPrivateCrtKeyParameters)keys.Private);
                 }
-                return new RsaKeyHelper(keys);
+                else if (tmpObj is RsaPrivateCrtKeyParameters pvtKeys)//pkcs8 private key
+                {
+                    return new RsaKeyHelper(new RsaKeyParameters(false, pvtKeys.Modulus, pvtKeys.PublicExponent), pvtKeys);
+                }
+                else if (tmpObj is Org.BouncyCastle.X509.X509Certificate cer)//pem cert
+                {
+                    return new RsaKeyHelper((RsaKeyParameters)cer.GetPublicKey(), null);
+                }
+                else if (tmpObj is RsaKeyParameters rkp)//public key
+                {
+                    return new RsaKeyHelper(rkp, null);
+                }
+                return null;
+                /*
+                if (format == KeyFormat.pkcs1)
+                {
+                    privateKey = FormatKeyString(privateKey, format);
+                    PemReader reader = new PemReader(new StringReader(privateKey));
+                    var keys = reader.ReadObject() as AsymmetricCipherKeyPair;
+                    if (keys == null)
+                    {
+                        return null;
+                    }
+                    return new RsaKeyHelper((RsaKeyParameters)keys.Public, (RsaPrivateCrtKeyParameters)keys.Private);
+                }
+                else
+                {
+                    //pkcs8
+                    var tmp = RemoveKeyStringFormat(privateKey, format);
+                    byte[] buffer = Convert.FromBase64String(tmp);
+                    RsaPrivateCrtKeyParameters prvt = (RsaPrivateCrtKeyParameters)PrivateKeyFactory.CreateKey(buffer);
+
+                    RsaKeyParameters pub = new RsaKeyParameters(false, prvt.Modulus, prvt.Exponent);
+
+                    var helper = new RsaKeyHelper(pub, prvt);
+                    return helper;
+                }
+                */
             }
-            else
+            catch (Exception ex)
             {
-                //pkcs8
-                var tmp = RemoveKeyStringFormat(privateKey, format);
-                byte[] buffer = Convert.FromBase64String(tmp);
-                RsaPrivateCrtKeyParameters prvt = (RsaPrivateCrtKeyParameters)PrivateKeyFactory.CreateKey(buffer);
-
-                RsaKeyParameters pub = new RsaKeyParameters(false, prvt.Modulus, prvt.Exponent);
-
-                var helper = new RsaKeyHelper(new AsymmetricCipherKeyPair(pub, prvt));
-                return helper;
+                throw new InvalidKeyFormatException("密钥格式不正确", ex);
             }
         }
         /// <summary>
@@ -217,60 +225,74 @@ namespace Javirs.Common.Security
             XElement root = XElement.Parse(xmlPrivateKey);
             //Modulus
             var modulus = root.Element("Modulus");
+            var M = new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(modulus.Value));
             //Exponent
             var exponent = root.Element("Exponent");
-            Org.BouncyCastle.Math.BigInteger pInteger = null, qInteger = null, dpInteger = null, dqInteger = null, iQInteger = null, dInteger = null;
+            var E = new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(exponent.Value));
+            Org.BouncyCastle.Math.BigInteger P = null, Q = null, DP = null, DQ = null, QI = null, D = null;
             //P
-            var p = root.Element("P");
-            if (p != null)
+            var pXml = root.Element("P");
+            if (pXml != null)
             {
-                pInteger = new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(p.Value));
+                P = new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(pXml.Value));
             }
             //Q
-            var q = root.Element("Q");
-            if (q != null)
+            var qXml = root.Element("Q");
+            if (qXml != null)
             {
-                qInteger = new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(q.Value));
+                Q = new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(qXml.Value));
             }
             //DP
-            var dp = root.Element("DP");
-            if (dp != null)
+            var dpXml = root.Element("DP");
+            if (dpXml != null)
             {
-                dpInteger = new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(dp.Value));
+                DP = new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(dpXml.Value));
             }
             //DQ
-            var dq = root.Element("DQ");
-            if (dq != null)
+            var dqXml = root.Element("DQ");
+            if (dqXml != null)
             {
-                dqInteger = new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(dq.Value));
+                DQ = new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(dqXml.Value));
             }
             //InverseQ
-            var inverseQ = root.Element("InverseQ");
-            if (inverseQ != null)
+            var iqXml = root.Element("InverseQ");
+            if (iqXml != null)
             {
-                iQInteger = new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(inverseQ.Value));
+                QI = new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(iqXml.Value));
             }
             //D
-            var d = root.Element("D");
-            if (d != null)
+            var dXml = root.Element("D");
+            if (dXml != null)
             {
-                dInteger = new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(d.Value));
+                D = new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(dXml.Value));
             }
-            RsaPrivateCrtKeyParameters rsaPrivateCrtKeyParameters = new RsaPrivateCrtKeyParameters(
-                new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(modulus.Value)),
-                new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(exponent.Value)),
-                dInteger,
-                pInteger,
-                qInteger,
-                dpInteger,
-                dqInteger,
-                iQInteger);
-
-            AsymmetricKeyParameter pubc = new RsaKeyParameters(false, rsaPrivateCrtKeyParameters.Modulus, rsaPrivateCrtKeyParameters.Exponent);
-            var helper = new RsaKeyHelper(new AsymmetricCipherKeyPair(pubc, rsaPrivateCrtKeyParameters));
+            //RsaPrivateCrtKeyParameters rsaPrivateCrtKeyParameters = new RsaPrivateCrtKeyParameters(
+            //    //new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(modulus.Value)),
+            //    //new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(exponent.Value)),
+            //    M,
+            //    E,
+            //    D,
+            //    P,
+            //    Q,
+            //    DP,
+            //    DQ,
+            //    QI);
+            RsaPrivateCrtKeyParameters rsaPrivateCrtKeyParameters = null;
+            if (D != null)
+            {
+                rsaPrivateCrtKeyParameters = new RsaPrivateCrtKeyParameters(M, E, D, P, Q, DP, DQ, QI);
+            }
+            RsaKeyParameters pubc = new RsaKeyParameters(false, M, E);
+            var helper = new RsaKeyHelper(pubc, rsaPrivateCrtKeyParameters);
             return helper;
         }
-        private static string FormatKeyString(string key, KeyFormat format)
+        /// <summary>
+        /// 格式化私钥
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="format"></param>
+        /// <returns></returns>
+        public static string FormatPrivateKey(string key, KeyFormat format)
         {
             string flag = format == KeyFormat.pkcs1 ? "-----{0} RSA PRIVATE KEY-----" : "-----{0} PRIVATE KEY-----";
             if (key.StartsWith(string.Format(flag, "BEGIN")))
@@ -289,6 +311,37 @@ namespace Javirs.Common.Security
             }
             lines.Add(string.Format(flag, "END"));
             return string.Join("\r\n", lines);
+        }
+        /// <summary>
+        /// 格式化密钥字符串，格式声明头和尾各独占一行，密钥体每64字节一行
+        /// </summary>
+        /// <returns></returns>
+        public static string FormatKeyString(string keyString)
+        {
+            if (string.IsNullOrEmpty(keyString))
+            {
+                return keyString;
+            }
+            string lineKeyString = keyString.Replace("\r", "").Replace("\n", "");
+            string pattern = "(-----BEGIN\\s.+?-----).+?-----END\\s.+?-----$";
+            if (!Regex.IsMatch(lineKeyString, pattern))
+            {
+                return keyString;
+            }
+            string head = Regex.Replace(lineKeyString, pattern, "$1");
+            string end = head.Replace("BEGIN", "END");
+            lineKeyString = lineKeyString.Replace(head, "").Replace(end, "");//去掉声明头和声明脚
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine(head);
+            int pos = 0;
+            while (pos < lineKeyString.Length)
+            {
+                var count = lineKeyString.Length - pos < 64 ? lineKeyString.Length - pos : 64;
+                builder.AppendLine(lineKeyString.Substring(pos, count));
+                pos += count;
+            }
+            builder.AppendLine(end);
+            return builder.ToString();
         }
         /// <summary>
         /// Format public key
@@ -315,23 +368,6 @@ namespace Javirs.Common.Security
             res.Add("-----END PUBLIC KEY-----");
             var resStr = string.Join("\r\n", res);
             return resStr;
-        }
-        /// <summary>
-        /// Remove the Pkcs1 format private key format
-        /// </summary>
-        /// <param name="keyString"></param>
-        /// <param name="format"></param>
-        /// <returns></returns>
-        public static string RemoveKeyStringFormat(string keyString, KeyFormat format)
-        {
-            string flag = format == KeyFormat.pkcs1 ? "-----{0} RSA PRIVATE KEY-----" : "-----{0} PRIVATE KEY-----";
-            string begin = string.Format(flag, "BEGIN");
-            string end = string.Format(flag, "END");
-            if (!keyString.StartsWith(begin))
-            {
-                return keyString.Replace("\r\n", "");
-            }
-            return keyString.Replace(begin, "").Replace(end, "").Replace("\r\n", "");
         }
         /// <summary>
         /// Private Key Convert to xml
@@ -371,6 +407,48 @@ namespace Javirs.Common.Security
                 privatElement.Add(prid);
             }
             return privatElement.ToString(SaveOptions.DisableFormatting);
+        }
+        /// <summary>
+        /// 获取rsa加密服务对象
+        /// </summary>
+        /// <param name="rsa"></param>
+        /// <returns></returns>
+        public RSACryptoServiceProvider RSACryptoServiceProvider()
+        {
+            try
+            {
+                RSAParameters parameters;
+                if (Private != null)
+                {
+                    var rsa = Private;
+                    parameters = new RSAParameters
+                    {
+                        DP = this.Private.DP.ToByteArrayUnsigned(),
+                        DQ = this.Private.DQ.ToByteArrayUnsigned(),
+                        Exponent = this.Private.PublicExponent.ToByteArrayUnsigned(),
+                        InverseQ = this.Private.QInv.ToByteArrayUnsigned(),
+                        D = this.Private.Exponent.ToByteArrayUnsigned(),
+                        P = this.Private.P.ToByteArrayUnsigned(),
+                        Modulus = this.Private.Modulus.ToByteArrayUnsigned(),
+                        Q = this.Private.Q.ToByteArrayUnsigned()
+                    };
+                }
+                else
+                {
+                    parameters = new RSAParameters
+                    {
+                        Modulus = this.Public.Modulus.ToByteArrayUnsigned(),
+                        Exponent = this.Public.Exponent.ToByteArrayUnsigned()
+                    };
+                }
+                RSACryptoServiceProvider serviceProvider = new RSACryptoServiceProvider();
+                serviceProvider.ImportParameters(parameters);
+                return serviceProvider;
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidKeyFormatException("无法识别的密钥", ex);
+            }
         }
         /// <summary>
         /// PEM公钥转为xml公钥
@@ -434,6 +512,19 @@ namespace Javirs.Common.Security
             /// pkcs8
             /// </summary>
             pkcs8
+        }
+
+        internal class MyPasswordFinder : IPasswordFinder
+        {
+            private readonly string password;
+            public MyPasswordFinder(string pwd)
+            {
+                this.password = pwd;
+            }
+            public char[] GetPassword()
+            {
+                return password.ToCharArray();
+            }
         }
     }
 }

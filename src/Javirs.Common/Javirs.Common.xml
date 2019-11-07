@@ -267,12 +267,6 @@
             <param name="server">redis连接字符串，对于内网redis直接输入ip地址（10.14.0.148:3363），外网redis使用连接字符串</param>
             <param name="db">redis数据库索引</param>
         </member>
-        <member name="M:Javirs.Common.Caching.RedisCache.#ctor(Microsoft.Extensions.Options.IOptions{Javirs.Common.Caching.RedisConfig})">
-            <summary>
-            DI
-            </summary>
-            <param name="options"></param>
-        </member>
         <member name="M:Javirs.Common.Caching.RedisCache.GetOrAdd``1(System.String,System.Func{System.String,``0})">
             <summary>
             获取或添加缓存，缓存key存在时直接返回缓存值，否则执行func委托，加入返回并存入缓存
@@ -411,50 +405,6 @@
             <param name="c1"></param>
             <param name="c2"></param>
             <returns>返回以c1单位的货币对象</returns>
-        </member>
-        <member name="T:Javirs.Common.DistributedCacheExtension">
-            <summary>
-            分布式缓存扩展类
-            </summary>
-        </member>
-        <member name="M:Javirs.Common.DistributedCacheExtension.Get``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String)">
-            <summary>
-            获取指定key的缓存值
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="cache"></param>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Javirs.Common.DistributedCacheExtension.GetAsync``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String)">
-            <summary>
-            获取指定key的缓存值
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="cache"></param>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Javirs.Common.DistributedCacheExtension.Set``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String,``0,System.Nullable{System.TimeSpan})">
-            <summary>
-            设置
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="cache"></param>
-            <param name="key"></param>
-            <param name="t"></param>
-            <param name="ts"></param>
-        </member>
-        <member name="M:Javirs.Common.DistributedCacheExtension.SetAsync``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String,``0,System.Nullable{System.TimeSpan})">
-            <summary>
-            设置
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="cache"></param>
-            <param name="key"></param>
-            <param name="t"></param>
-            <param name="ts"></param>
-            <returns></returns>
         </member>
         <member name="T:Javirs.Common.DynamicConverter">
             <summary>
@@ -607,10 +557,12 @@
             </summary>
             <param name="message"></param>
         </member>
-        <member name="P:Javirs.Common.Exceptions.CustomizeException.Message">
+        <member name="M:Javirs.Common.Exceptions.CustomizeException.#ctor(System.String,System.Exception)">
             <summary>
-            错误信息
+            自定义异常
             </summary>
+            <param name="message"></param>
+            <param name="innerEx"></param>
         </member>
         <member name="T:Javirs.Common.Exceptions.DataNotFoundException">
             <summary>
@@ -622,6 +574,24 @@
             找不到数据
             </summary>
             <param name="message"></param>
+        </member>
+        <member name="T:Javirs.Common.Exceptions.InvalidKeyFormatException">
+            <summary>
+            密钥格式不正确
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Exceptions.InvalidKeyFormatException.#ctor(System.String)">
+            <summary>
+            密钥格式不正确
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Javirs.Common.Exceptions.InvalidKeyFormatException.#ctor(System.String,System.Exception)">
+            <summary>
+            密钥格式不正确
+            </summary>
+            <param name="message"></param>
+            <param name="innerEx"></param>
         </member>
         <member name="T:Javirs.Common.Exceptions.JsonFormatException">
             <summary>
@@ -900,7 +870,12 @@
         </member>
         <member name="M:Javirs.Common.IDCard.#ctor(System.String)">
             <summary>
-            使�       <param name="cardno"></param>
+            使用身份证号码初始化
+            
+            </summary>
+            <exception cref="T:System.ArgumentException">非18位身份证异常</exception>
+            <exception cref="T:System.ArgumentNullException">身份证号码传空异常</exception>
+            <param name="cardno"></param>
         </member>
         <member name="P:Javirs.Common.IDCard.Birthday">
             <summary>
@@ -1233,7 +1208,18 @@
             </summary>
             <param name="key">Json键名</param>
             <returns></returns>
-       >
+        </member>
+        <member name="M:Javirs.Common.Json.JsonObject.ToString">
+            <summary>
+            获取Json字符串
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Json.JsonObject.Put(System.String,System.Object)">
+            <summary>
+            添加Json属性
+            </summary>
+            <param name="key"></param>
             <param name="value"></param>
         </member>
         <member name="M:Javirs.Common.Json.JsonObject.Remove(System.String)">
@@ -1651,22 +1637,17 @@
             SSL请求的回调认证
             </summary>
         </member>
-        <member name="M:Javirs.Common.Net.HttpHelper.Post">
+        <member name="M:Javirs.Common.Net.HttpHelper.Post(System.Int32,System.Boolean)">
             <summary>
             上传数据
             </summary>
+            <param name="timeout">超时时间，单位秒</param>
+            <param name="isUseCert">是否使用证书</param>
             <returns></returns>
         </member>
-        <member name="M:Javiummary>
-        </member>
-        <member name="P:Javirs.Common.Net.HttpHelper.SslCallback">
-            <summary>
-            SSL请求的回调认证
-            </summary>
-        </member>
         <member name="M:Javirs.Common.Net.HttpHelper.Post">
             <summary>
-            上传数据
+            上送数据
             </summary>
             <returns></returns>
         </member>
@@ -1822,6 +1803,16 @@
             </summary>
             <param name="encStr"></param>
             <returns></returns>
+        </member>
+        <member name="P:Javirs.Common.Net.IPostFileData.FileName">
+            <summary>
+            文件名称
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Net.IPostFileData.ContentType">
+            <summary>
+            类型（默认image/gif）
+            </summary>
         </member>
         <member name="T:Javirs.Common.PerformanceMonitor">
             <summary>
@@ -2135,6 +2126,15 @@
             从PEM密钥文件初始化PEM证书
             </summary>
             <param name="fullpath"></param>
+            <exception cref="T:Javirs.Common.Exceptions.InvalidKeyFormatException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.PemCertificate.ReadFromKeyString(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="keyString">密钥字符串</param>
+            <exception cref="T:Javirs.Common.Exceptions.InvalidKeyFormatException"></exception>
             <returns></returns>
         </member>
         <member name="T:Javirs.Common.Security.RsaCertificate">
@@ -2262,11 +2262,12 @@
             RSA密钥帮助类
             </summary>
         </member>
-        <member name="M:Javirs.Common.Security.RsaKeyHelper.#ctor(Org.BouncyCastle.Crypto.AsymmetricCipherKeyPair)">
+        <member name="M:Javirs.Common.Security.RsaKeyHelper.#ctor(Org.BouncyCastle.Crypto.Parameters.RsaKeyParameters,Org.BouncyCastle.Crypto.Parameters.RsaPrivateCrtKeyParameters)">
             <summary>
             RSA密钥帮助类
             </summary>
-            <param name="keys"></param>
+            <param name="publicKey"></param>
+            <param name="privateKey"></param>
         </member>
         <member name="P:Javirs.Common.Security.RsaKeyHelper.Private">
             <summary>
@@ -2278,15 +2279,17 @@
             公钥
             </summary>
         </member>
-        <member name="P:Javirs.Common.Security.RsaKeyHelper.Keys">
-            <summary>
-            密钥对
-            </summary>
-        </member>
         <member name="P:Javirs.Common.Security.RsaKeyHelper.Format">
             <summary>
             密钥格式，默认PKCS1
             </summary>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaKeyHelper.GetKeyString(System.Boolean)">
+            <summary>
+            获取密钥字符串
+            </summary>
+            <param name="includePrivate"></param>
+            <returns></returns>
         </member>
         <member name="M:Javirs.Common.Security.RsaKeyHelper.ToXmlString(System.Boolean)">
             <summary>
@@ -2323,12 +2326,12 @@
             <param name="size">1024或2048</param>
             <returns></returns>
         </member>
-        <member name="M:Javirs.Common.Security.RsaKeyHelper.FromPemPrivateKey(System.String,Javirs.Common.Security.RsaKeyHelper.KeyFormat)">
+        <member name="M:Javirs.Common.Security.RsaKeyHelper.FromPemKeyString(System.String,System.String)">
             <summary>
             从私钥字符串初始化
             </summary>
-            <param name="privateKey"></param>
-            <param name="format"></param>
+            <param name="keyString">密钥字符串，必须带有格式声明</param>
+            <param name="password">密码</param>
             <returns></returns>
         </member>
         <member name="M:Javirs.Common.Security.RsaKeyHelper.FromXmlKey(System.String)">
@@ -2338,19 +2341,25 @@
             <param name="xmlPrivateKey"></param>
             <returns></returns>
         </member>
+        <member name="M:Javirs.Common.Security.RsaKeyHelper.FormatPrivateKey(System.String,Javirs.Common.Security.RsaKeyHelper.KeyFormat)">
+            <summary>
+            格式化私钥
+            </summary>
+            <param name="key"></param>
+            <param name="format"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaKeyHelper.FormatKeyString(System.String)">
+            <summary>
+            格式化密钥字符串，格式声明头和尾各独占一行，密钥体每64字节一行
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Javirs.Common.Security.RsaKeyHelper.FormatPublicKey(System.String)">
             <summary>
             Format public key
             </summary>
             <param name="publicString"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Javirs.Common.Security.RsaKeyHelper.RemoveKeyStringFormat(System.String,Javirs.Common.Security.RsaKeyHelper.KeyFormat)">
-            <summary>
-            Remove the Pkcs1 format private key format
-            </summary>
-            <param name="keyString"></param>
-            <param name="format"></param>
             <returns></returns>
         </member>
         <member name="M:Javirs.Common.Security.RsaKeyHelper.PrivateKeyToXml(Org.BouncyCastle.Crypto.Parameters.RsaPrivateCrtKeyParameters,System.Boolean)">
@@ -2359,6 +2368,13 @@
             </summary>
             <param name="parameters"></param>
             <param name="includePrivate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RsaKeyHelper.RSACryptoServiceProvider">
+            <summary>
+            获取rsa加密服务对象
+            </summary>
+            <param name="rsa"></param>
             <returns></returns>
         </member>
         <member name="M:Javirs.Common.Security.RsaKeyHelper.PublicToXml(System.String)">

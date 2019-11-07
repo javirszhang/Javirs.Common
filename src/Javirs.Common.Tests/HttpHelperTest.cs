@@ -1,5 +1,6 @@
 ﻿using Javirs.Common.Json;
 using Javirs.Common.Net;
+using Javirs.Common.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -32,17 +33,29 @@ namespace Javirs.Common.Tests
         [TestMethod]
         public void PostBufferTest()
         {
-            string url = "https://localhost:44308/api/values";
+            string url = "http://api.admin.52stark.cn/api/Store/SingleOrDefault/1161";
+            double ts = new TimeStamp();
+            string timestamp = ((long)ts).ToString();
             var data = new
             {
-                merchantNo = "000000000",
-                timestamp = "000000",
-                token = "123123123123123123"
+                merchantNo = "1019",
+                timestamp = timestamp,
+                token = "6Hcb2V9xoTWvSvn1WXCFt5VcDiMJybD3rqg3SS6PaVeu",
+                apiversion = "v1",
             };
-            string json = JsonSerializer.JsonSerialize(data);
-            byte[] buffer = Encoding.UTF8.GetBytes(json);
+            string source = string.Concat("path=/api/Store/SingleOrDefault/1161&timestamp=", data.timestamp, "&token=", data.token, "&key=", "1ad9b656c59c44329e40f58d5750c6bb");
+            string sign = MD5.Encode(source);
+            //string json = JsonSerializer.JsonSerialize(data);
+            //byte[] buffer = Encoding.UTF8.GetBytes(json);
             HttpHelper http = new HttpHelper(url);
-            string response = http.SendRequest("post", buffer, 10, false);
+            http.AddHeaderData("merchantNo", data.merchantNo)
+                .AddHeaderData("timestamp", data.timestamp)
+                .AddHeaderData("token", data.token)
+                .AddHeaderData("signature", sign)
+                .AddHeaderData("apiversion", "v1");
+
+            string response = http.SendRequest("get", null, 10, false);
+            var httpRes = http.GetResponse();
             Assert.IsTrue(http.StatusCode == 200);
         }
     }
