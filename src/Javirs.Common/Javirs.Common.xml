@@ -4,6 +4,30 @@
         <name>Javirs.Common</name>
     </assembly>
     <members>
+        <member name="T:Javirs.Common.AsciiSortedDictionary`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="TValue"></typeparam>
+        </member>
+        <member name="M:Javirs.Common.AsciiSortedDictionary`1.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.AsciiSortedDictionary`1.StringKeyAsciiComparer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.AsciiSortedDictionary`1.StringKeyAsciiComparer.Compare(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
         <member name="T:Javirs.Common.AsynNotify.NotifyProvider">
             <summary>
             异步通知提供者
@@ -146,6 +170,14 @@
             </summary>
             <typeparam name="T"></typeparam>
             <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.ICache.GetList``1(System.String)">
+            <summary>
+            根据通配符取出所有缓存数据
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="pattern"></param>
             <returns></returns>
         </member>
         <member name="M:Javirs.Common.Caching.ICache.Delete(System.String)">
@@ -328,6 +360,14 @@
             </summary>
             <typeparam name="T"></typeparam>
             <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.RedisCache.GetList``1(System.String)">
+            <summary>
+            取出所有与指定pattern匹配的所有key保存的值
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="pattern"></param>
             <returns></returns>
         </member>
         <member name="T:Javirs.Common.Caching.RedisConfig">

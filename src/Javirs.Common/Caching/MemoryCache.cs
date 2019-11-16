@@ -153,5 +153,9 @@ namespace Javirs.Common.Caching
             }
             return true;
         }
+        public List<T> GetList<T>(string pattern)
+        {
+            return Get<List<T>>(pattern);
+        }
     }
 }

@@ -38,6 +38,14 @@ namespace Javirs.Common.Tests
             Debug.WriteLine(value);
 
         }
+        [TestMethod]
+        public void JsonParseTest()
+        {
+            string json = "{\"text\":\"{\"name\":\"Jason\",\"code\":\"who's right0\"}\"}";
+            var obj = JsonObject.Parse(json);
+            string code = obj.GetArray()[0].GetString("code");
+            Assert.AreEqual("who's right", code);
+        }
     }
 
     public class PageReturnInfo

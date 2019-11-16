@@ -76,13 +76,16 @@ namespace Javirs.Common.Security
         /// </summary>
         /// <param name="encryptedDataBytes"></param>
         /// <param name="keys"></param>
+        /// <param name="iv"></param>
+        /// <param name="mode"></param>
+        /// <param name="padding"></param>
         /// <returns></returns>
-        private static byte[] DecryptECB(byte[] encryptedDataBytes, byte[] keys, Byte[] iv)
+        private static byte[] DecryptECB(byte[] encryptedDataBytes, byte[] keys, Byte[] iv, CipherMode mode = CipherMode.ECB, PaddingMode padding = PaddingMode.PKCS7)
         {
             MemoryStream tempStream = new MemoryStream(encryptedDataBytes, 0, encryptedDataBytes.Length);
             DESCryptoServiceProvider decryptor = new DESCryptoServiceProvider();
-            decryptor.Mode = CipherMode.ECB;
-            decryptor.Padding = PaddingMode.None;
+            decryptor.Mode = mode;
+            decryptor.Padding = padding;
             CryptoStream decryptionStream = new CryptoStream(tempStream, decryptor.CreateDecryptor(keys, iv), CryptoStreamMode.Read);
             byte[] data = new byte[encryptedDataBytes.Length];
             decryptionStream.Read(data, 0, data.Length);
@@ -96,8 +99,11 @@ namespace Javirs.Common.Security
         /// </summary>
         /// <param name="sourceDataBytes"></param>
         /// <param name="keys"></param>
+        /// <param name="iv"></param>
+        /// <param name="cipherMode"></param>
+        /// <param name="paddingMode"></param>
         /// <returns></returns>
-        private static byte[] EncryptECB(byte[] sourceDataBytes, byte[] keys, Byte[] iv, CipherMode cipherMode = CipherMode.ECB,PaddingMode paddingMode = PaddingMode.PKCS7)
+        private static byte[] EncryptECB(byte[] sourceDataBytes, byte[] keys, Byte[] iv, CipherMode cipherMode = CipherMode.ECB, PaddingMode paddingMode = PaddingMode.PKCS7)
         {
 
             //Byte[] iv = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };

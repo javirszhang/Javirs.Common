@@ -261,15 +261,10 @@ namespace Javirs.Common.Json
                             jsonValue = tmp2._jsonDic;
                         }
                         resDic.Add(propertyName.ToString(), jsonValue);
-#if V35
-                        propertyName = null;
-                        propertyName = new StringBuilder();
-                        propertyValue = null;
-                        propertyValue = new StringBuilder();
-#else
+
                         propertyName.Clear();
                         propertyValue.Clear();
-#endif
+
                     }
                     else
                     {
@@ -310,15 +305,9 @@ namespace Javirs.Common.Json
                         }
                         resDic.Add(propertyName.ToString(), jsonValue);
                         //resDic.Add(propertyName.ToString(), value);
-#if V35
-                        propertyName = null;
-                        propertyName = new StringBuilder();
-                        propertyValue = null;
-                        propertyValue = new StringBuilder();
-#else
+
                         propertyName.Clear();
                         propertyValue.Clear();
-#endif
                     }
                     else
                     {
@@ -330,11 +319,13 @@ namespace Javirs.Common.Json
                 {
                     if (tagStack.Count > 0)
                     {
-                        if (tagStack.Peek() != word)
+                        char tmpChar = tagStack.Peek();
+
+                        if (tmpChar != word && tmpChar != '\'' && tmpChar != '"')
                         {
                             tagStack.Push(word);
                         }
-                        else
+                        else if(tmpChar == word)
                         {
                             tagStack.Pop();
                         }
@@ -376,12 +367,8 @@ namespace Javirs.Common.Json
                     if (tagStack.Count == 0)
                     {
                         propertyName.Append(propertyValue.ToString());
-#if V35
-                        propertyValue = null;
-                        propertyValue = new StringBuilder();
-#else
+
                         propertyValue.Clear();
-#endif
                     }
                     else
                     {
@@ -443,12 +430,9 @@ namespace Javirs.Common.Json
                         if (tagStack.Count == 0)
                         {
                             jsonArrayItem.Add(temp.ToString());
-#if V35
-                            temp = null;
-                            temp = new StringBuilder();
-#else
+
                             temp.Clear();
-#endif
+
                         }
                     }
                 }
@@ -463,12 +447,9 @@ namespace Javirs.Common.Json
                         if (temp.Length > 0)
                         {
                             jsonArrayItem.Add(temp.ToString());
-#if V35
-                            temp = null;
-                            temp = new StringBuilder();
-#else
+
                             temp.Clear();
-#endif
+
                         }
                     }
                 }
@@ -495,12 +476,9 @@ namespace Javirs.Common.Json
                         if (temp.Length > 0)
                         {
                             jsonArrayItem.Add(temp.ToString());
-#if V35
-                            temp = null;
-                            temp = new StringBuilder();
-#else
+
                             temp.Clear();
-#endif
+
                         }
                     }
                     else
@@ -543,15 +521,15 @@ namespace Javirs.Common.Json
             {
                 return;
             }
-            if (value is JsonObject)
+            if (value is JsonObject subJo)
             {
-                var subJo = value as JsonObject;
+                //var subJo = value as JsonObject;
                 _jsonDic.Add(key, subJo._jsonDic);
             }
-            else if (value is JsonObject[])
+            else if (value is JsonObject[] joArray)
             {
                 var list = new List<Dictionary<string, object>>();
-                var joArray = value as JsonObject[];
+                //var joArray = value as JsonObject[];
                 foreach (var jo in joArray)
                 {
                     list.Add(jo._jsonDic);

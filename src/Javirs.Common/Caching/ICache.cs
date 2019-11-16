@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Javirs.Common.Caching
 {
@@ -28,6 +29,13 @@ namespace Javirs.Common.Caching
         /// <param name="key"></param>
         /// <returns></returns>
         T Get<T>(string key);
+        /// <summary>
+        /// 根据通配符取出所有缓存数据
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="pattern"></param>
+        /// <returns></returns>
+        List<T> GetList<T>(string pattern);
         /// <summary>
         /// 删除缓存
         /// </summary>

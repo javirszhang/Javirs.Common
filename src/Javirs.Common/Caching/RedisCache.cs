@@ -64,19 +64,24 @@ namespace Javirs.Common.Caching
             object value = GetString(key);
             if (value != null && !string.IsNullOrEmpty(value.ToString()))
             {
-                Type t = typeof(T);
-                if (t == typeof(string) || t.IsPrimitive)
-                {
-                    return (T)Convert.ChangeType(value, t);
-                }
-                else
-                {
-                    return JsonSerializer.Deserializer<T>(value.ToString());
-                }
+                return ConvertTo<T>(value);
             }
+
             value = func(key);
             Add(key, value);
             return (T)value;
+        }
+        private static T ConvertTo<T>(object value)
+        {
+            Type t = typeof(T);
+            if (t == typeof(string) || t.IsPrimitive)
+            {
+                return (T)Convert.ChangeType(value, t);
+            }
+            else
+            {
+                return JsonSerializer.Deserializer<T>(value.ToString());
+            }
         }
         /// <summary>
         /// 获得缓存字符串值
@@ -183,7 +188,36 @@ namespace Javirs.Common.Caching
             {
                 return default(T);
             }
-            return JsonSerializer.Deserializer<T>(json);
+            return ConvertTo<T>(json);
+        }
+        /// <summary>
+        /// 取出所有与指定pattern匹配的所有key保存的值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="pattern"></param>
+        /// <returns></returns>
+        public List<T> GetList<T>(string pattern)
+        {
+            string lua = @"local res = redis.call('keys',@pattern) 
+return res ";
+            RedisResult redisResult = DB.ScriptEvaluate(LuaScript.Prepare(lua), new { pattern });
+            if (redisResult.IsNull)
+            {
+                return new List<T>();
+            }
+            RedisKey[] keys = (RedisKey[])redisResult;
+            var valueCollection = DB.StringGet(keys);
+            List<T> array = new List<T>();
+            foreach (var item in valueCollection)
+            {
+                string str = item;
+                var value = ConvertTo<T>(str);
+                if (value != null)
+                {
+                    array.Add(value);
+                }
+            }
+            return array;
         }
     }
     /// <summary>

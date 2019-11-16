@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.8.17</Version>
+    <Version>2.8.20</Version>
     <!--<TargetFramework>netstandard2.0</TargetFramework>-->
     <!--<TargetFramework>net40</TargetFramework>-->
   </PropertyGroup>
@@ -14,7 +14,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <DocumentationFile>G:\Jason\gitwork\Javirs.Common\src\Javirs.Common\Javirs.Common.xml</DocumentationFile>
-    <Description>add a memorycache class</Description>
+    <Description>修复asciikey字典</Description>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="4.0.20710" />
