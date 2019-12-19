@@ -11,13 +11,19 @@ namespace Javirs.Common.CoreUnitTest
         [Test]
         public void PatternGetTest()
         {
-            RedisCache redisCache = new RedisCache("localhost:6379");
-            redisCache.Add("tnet_user_1", new User { UserId = 1, UserCode = "12200100001", UserName = "Jason", Refer_Id = null, AuthTime = null, NodeLevel = 0 });
-            redisCache.Add("tnet_user_2", new User { UserId = 2, UserCode = "dy0001", UserName = "黄月英", Refer_Id = 1, AuthTime = null, NodeLevel = 1 });
-            redisCache.Add("tnet_user_3", new User { UserId = 3, UserCode = "luoxuan", UserName = "落喧", Refer_Id = 1, AuthTime = null, NodeLevel = 1 });
-
+            RedisCache redisCache = new RedisCache("localhost:6379");            
             var list = redisCache.GetList<User>("tnet_user_*");
             Assert.IsTrue(list != null && list.Count == 3);
+        }
+        [Test]
+        public void PatternDeleteTest()
+        {
+            RedisCache redis = new RedisCache("localhost:6379");
+            string[] keys = redis.GetKeys("*_1");
+            for (int i = 0; i < keys.Length; i++)
+            {
+                redis.Delete(keys[i]);
+            }
         }
 
         public class User

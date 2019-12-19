@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.8.20</Version>
+    <Version>2.8.24</Version>
     <!--<TargetFramework>netstandard2.0</TargetFramework>-->
     <!--<TargetFramework>net40</TargetFramework>-->
   </PropertyGroup>
@@ -14,7 +14,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <DocumentationFile>G:\Jason\gitwork\Javirs.Common\src\Javirs.Common\Javirs.Common.xml</DocumentationFile>
-    <Description>修复asciikey字典</Description>
+    <Description>缓存增加批量获取key的方法</Description>
+    <Product Condition="'$(TargetFramework)' == 'net461'">Javirs.Common-net461</Product>
+    <Product Condition="'$(TargetFramework)' == 'netstandard2.0'">Javirs.Common-netstandard2.0</Product>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="4.0.20710" />

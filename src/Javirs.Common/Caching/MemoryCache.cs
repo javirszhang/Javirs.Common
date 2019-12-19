@@ -77,8 +77,15 @@ namespace Javirs.Common.Caching
         /// <returns></returns>
         public T Get<T>(string key)
         {
-            object value = GetObject(key);
-            return (T)value;
+            try
+            {
+                object value = GetObject(key);
+                return (T)value;
+            }
+            catch
+            {
+                return default(T);
+            }
         }
         /// <summary>
         /// 
@@ -153,9 +160,24 @@ namespace Javirs.Common.Caching
             }
             return true;
         }
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="pattern"></param>
+        /// <returns></returns>
         public List<T> GetList<T>(string pattern)
         {
             return Get<List<T>>(pattern);
+        }
+        /// <summary>
+        /// 按通配符获取匹配的key
+        /// </summary>
+        /// <param name="pattern"></param>
+        /// <returns></returns>
+        public string[] GetKeys(string pattern)
+        {
+            return new string[0];
         }
     }
 }

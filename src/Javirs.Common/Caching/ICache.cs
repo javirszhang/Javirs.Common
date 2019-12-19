@@ -70,5 +70,11 @@ namespace Javirs.Common.Caching
         /// <param name="expiry"></param>
         /// <returns></returns>
         bool Refresh(string key, object value = null, TimeSpan? expiry = null);
+        /// <summary>
+        /// 按通配符获取匹配的key
+        /// </summary>
+        /// <param name="pattern"></param>
+        /// <returns></returns>
+        string[] GetKeys(string pattern);
     }
 }

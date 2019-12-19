@@ -513,7 +513,7 @@ namespace Javirs.Common.Net
                 byte[] bytesBoundary = this.Encoding.GetBytes("\r\n--" + boundary + "\r\n");
                 var textData = this.PostDataCollection.FindAll((it) => { return !(it is PostFileData); });
                 var fileData = this.PostDataCollection.FindAll((it) => { return (it is PostFileData); });
-                if (fileData.Count > 0)
+                if (fileData.Count > 0 || "multipart/form-data".Equals(this.ContentType, StringComparison.OrdinalIgnoreCase))
                 {
                     this.ContentType = "multipart/form-data; boundary=" + boundary;
                     if (textData.Count > 0)
@@ -545,7 +545,10 @@ namespace Javirs.Common.Net
                 }
                 else
                 {
-                    this.ContentType = "application/x-www-form-urlencoded";
+                    if (string.IsNullOrEmpty(this.ContentType))
+                    {
+                        this.ContentType = "application/x-www-form-urlencoded";
+                    }
                     StringBuilder textpoststring = new StringBuilder();
                     foreach (var text in textData)
                     {

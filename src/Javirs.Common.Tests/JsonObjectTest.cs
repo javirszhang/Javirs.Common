@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,11 +42,22 @@ namespace Javirs.Common.Tests
         [TestMethod]
         public void JsonParseTest()
         {
-            string json = "{\"text\":\"{\"name\":\"Jason\",\"code\":\"who's right0\"}\"}";
+            var m = new
+            {
+                text = JsonSerializer.JsonSerialize(new {name="Jason" })
+            };
+            string json = File.ReadAllText(@"g:\jsonfiles\json.txt"); 
+            //string json = JsonSerializer.JsonSerialize(m);
             var obj = JsonObject.Parse(json);
-            string code = obj.GetArray()[0].GetString("code");
+            string text = obj.GetString("text");
+            var data = obj.GetObject("data");
+            var array = data.GetArray("array");
+            string content = array[1].GetString("content");
+            string code = obj.GetString("retCode");
+            //string code = obj.GetArray()[0].GetString("code");
             Assert.AreEqual("who's right", code);
         }
+        
     }
 
     public class PageReturnInfo

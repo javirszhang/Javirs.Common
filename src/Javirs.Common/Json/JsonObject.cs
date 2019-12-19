@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Javirs.Common.Exceptions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -225,6 +226,7 @@ namespace Javirs.Common.Json
             int position = 0;//索引位置
             int currentChar;//当前字符
             char lastTag = '\0';//上一个标签
+            char lastChar = '\0';
             while ((currentChar = reader.Read()) > -1)
             {
                 char word = (char)currentChar;
@@ -233,7 +235,10 @@ namespace Javirs.Common.Json
                 {
                     if (position != 0)
                     {
-                        tagStack.Push(word);
+                        if (!(tagStack.Contains('"') || tagStack.Contains('\'')))
+                        {
+                            tagStack.Push(word);
+                        }
                         propertyValue.Append(word);
                     }
                     lastTag = '{';
@@ -270,7 +275,10 @@ namespace Javirs.Common.Json
                     {
                         if (tagStack.Peek() != '{')
                         {
-                            tagStack.Push(word);
+                            if (!tagStack.Contains('\'') && !tagStack.Contains('"'))
+                            {
+                                tagStack.Push(word);
+                            }
                             propertyValue.Append(word);
                         }
                         else
@@ -325,7 +333,7 @@ namespace Javirs.Common.Json
                         {
                             tagStack.Push(word);
                         }
-                        else if(tmpChar == word)
+                        else if (tmpChar == word)
                         {
                             tagStack.Pop();
                         }
@@ -378,14 +386,13 @@ namespace Javirs.Common.Json
                 }
                 else
                 {
-
                     char lastestTag = tagStack.Count > 0 ? tagStack.Peek() : '\0';//上一个标签
                     if (!((word == 0x20 || word == 0x0d || word == 0x0a) && lastestTag != 0x27 && lastestTag != 0x22))
                     {
                         //丢弃空格，换行和回车
                         if (word == 0x5c)
                         {
-                            ResolveEscapes(propertyValue, reader);
+                            ResolveEscapes(propertyValue, reader, tagStack);
                         }
                         else
                         {
@@ -394,6 +401,7 @@ namespace Javirs.Common.Json
                     }
                 }
                 position++;
+                lastChar = word;
             }
             //return resDic;
             return new JsonObject(resDic, json, caseSecentive);
@@ -408,7 +416,7 @@ namespace Javirs.Common.Json
             char firstChar = (char)reader.Read();
             if (firstChar != '[')
             {
-                throw new ApplicationException("不是标准的Json数据格式");
+                throw new JsonFormatException("不是标准的Json数据格式");
             }
             tagStack.Push(firstChar);
             int i;
@@ -417,7 +425,10 @@ namespace Javirs.Common.Json
                 char c = (char)i;
                 if (c == '{')
                 {
-                    tagStack.Push(c);
+                    if (!(tagStack.Contains('"') || tagStack.Contains('\'')))
+                    {
+                        tagStack.Push(c);
+                    }
                     temp.Append(c);
                 }
                 else if (c == '}')
@@ -485,7 +496,7 @@ namespace Javirs.Common.Json
                     {
                         if (c == 0x5c)// 0x5c is an asc code for '\'
                         {
-                            ResolveEscapes(temp, reader);
+                            ResolveEscapes(temp, reader, tagStack);
                         }
                         else
                         {
@@ -556,7 +567,7 @@ namespace Javirs.Common.Json
         /// <summary>
         /// 处理转义符
         /// </summary>
-        private static void ResolveEscapes(StringBuilder sBuilder, StringReader reader)
+        private static void ResolveEscapes(StringBuilder sBuilder, StringReader reader, Stack<char> tagStack)
         {
             char c;
             char next = (char)reader.Read();
@@ -576,6 +587,10 @@ namespace Javirs.Common.Json
                 default:
                     c = next;
                     break;
+            }
+            if ((tagStack.Contains('[') || tagStack.Contains('{')) && next != 'u')
+            {
+                sBuilder.Append('\\');
             }
             sBuilder.Append(c);
         }

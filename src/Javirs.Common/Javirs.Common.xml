@@ -219,6 +219,13 @@
             <param name="expiry"></param>
             <returns></returns>
         </member>
+        <member name="M:Javirs.Common.Caching.ICache.GetKeys(System.String)">
+            <summary>
+            按通配符获取匹配的key
+            </summary>
+            <param name="pattern"></param>
+            <returns></returns>
+        </member>
         <member name="T:Javirs.Common.Caching.MemoryCache">
             <summary>
             本地内存缓存
@@ -285,6 +292,21 @@
             <param name="key"></param>
             <param name="value"></param>
             <param name="expiry"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.MemoryCache.GetList``1(System.String)">
+            <summary>
+            获取列表
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="pattern"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Caching.MemoryCache.GetKeys(System.String)">
+            <summary>
+            按通配符获取匹配的key
+            </summary>
+            <param name="pattern"></param>
             <returns></returns>
         </member>
         <member name="T:Javirs.Common.Caching.RedisCache">
@@ -370,6 +392,13 @@
             <param name="pattern"></param>
             <returns></returns>
         </member>
+        <member name="M:Javirs.Common.Caching.RedisCache.GetKeys(System.String)">
+            <summary>
+            按通配符获取匹配的key
+            </summary>
+            <param name="pattern"></param>
+            <returns></returns>
+        </member>
         <member name="T:Javirs.Common.Caching.RedisConfig">
             <summary>
             redis配置
@@ -398,6 +427,16 @@
             <param name="unit"></param>
         </member>
         <member name="P:Javirs.Common.CNY.Unit">
+            <summary>
+            货币单位
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.CNY.Amount">
+            <summary>
+            金额数值
+            </summary>
+        </member>
+        <member name="M:Jav>
             <summary>
             货币单位
             </summary>
@@ -446,6 +485,50 @@
             <param name="c2"></param>
             <returns>返回以c1单位的货币对象</returns>
         </member>
+        <member name="T:Javirs.Common.DistributedCacheExtension">
+            <summary>
+            分布式缓存扩展类
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.DistributedCacheExtension.Get``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String)">
+            <summary>
+            获取指定key的缓存值
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="cache"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.DistributedCacheExtension.GetAsync``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String)">
+            <summary>
+            获取指定key的缓存值
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="cache"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.DistributedCacheExtension.Set``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String,``0,System.Nullable{System.TimeSpan})">
+            <summary>
+            设置
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="cache"></param>
+            <param name="key"></param>
+            <param name="t"></param>
+            <param name="ts"></param>
+        </member>
+        <member name="M:Javirs.Common.DistributedCacheExtension.SetAsync``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String,``0,System.Nullable{System.TimeSpan})">
+            <summary>
+            设置
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="cache"></param>
+            <param name="key"></param>
+            <param name="t"></param>
+            <param name="ts"></param>
+            <returns></returns>
+        </member>
         <member name="T:Javirs.Common.DynamicConverter">
             <summary>
             动态类型转换
@@ -453,66 +536,7 @@
         </member>
         <member name="M:Javirs.Common.DynamicConverter.#ctor(System.Data.DataRow)">
             <summary>
-            动态类型转换
-            </summary>
-            <param name="row"></param>
-        </member>
-        <member name="M:Javirs.Common.DynamicConverter.#ctor(System.Data.DataTable,System.Boolean)">
-            <summary>
-            动态类型转换
-            </summary>
-            <param name="table"></param>
-            <param name="forceToCollection"></param>
-        </member>
-        <member name="P:Javirs.Common.DynamicConverter.KeyCase">
-            <summary>
-            Key的字符类型（大写，小写，驼峰）
-            </summary>
-        </member>
-        <member name="M:Javirs.Common.DynamicConverter.ToDynamic(System.String[])">
-            <summary>
-            转换为动态类型
-            </summary>
-            <param name="filterColumns">过滤列（只要这些列，不传则全选）</param>
-            <returns></returns>
-        </member>
-        <member name="M:Javirs.Common.DynamicConverter.op_Implicit(System.Data.DataRow)~Javirs.Common.DynamicConverter">
-            <summary>
-            对DataRow的隐式转换
-            </summary>
-            <param name="row"></param>
-        </member>
-        <member name="E:Javirs.Common.DynamicConverter.FieldGenerating">
-            <summary>
-            字段生成之前
-            </summary>
-        </member>
-        <member name="M:Javirs.Common.DynamicConverter.OnFieldGenerating(Javirs.Common.NameValuePair)">
-            <summary>
-            字段生成之前
-            </summary>
-        </member>
-        <member name="T:Javirs.Common.DynamicConverter.KeyType">
-            <summary>
-            属性名的大小写格式
-            </summary>
-        </member>
-        <member name="F:Javirs.Common.DynamicConverter.KeyType.LowerCase">
-            <summary>
-            全小写
-            </summary>
-        </member>
-        <member name="F:Javirs.Common.DynamicConverter.KeyType.UpperCase">
-            <summary>
-            全大写
-            </summary>
-        </member>
-        <member name="F:Javirs.Common.DynamicConverter.KeyType.PascalCase">
-            <summary>
-            驼峰
-            </summary>
-        </member>
-        <member name="F:Javirs.Common.DynamicConverter.KeyType.PascalCaseWithoutSplit">
+            动态类型转�PascalCaseWithoutSplit">
             <summary>
             驼峰去掉分隔符
             </summary>
@@ -1268,7 +1292,7 @@
             </summary>
             <param name="key"></param>
         </member>
-        <member name="M:Javirs.Common.Json.JsonObject.ResolveEscapes(System.Text.StringBuilder,System.IO.StringReader)">
+        <member name="M:Javirs.Common.Json.JsonObject.ResolveEscapes(System.Text.StringBuilder,System.IO.StringReader,System.Collections.Generic.Stack{System.Char})">
             <summary>
             处理转义符
             </summary>
@@ -2663,12 +2687,15 @@
             <param name="data"></param>
             <returns></returns>
         </member>
-        <member name="M:Javirs.Common.Security.TripleDesEncodeDecode.DecryptECB(System.Byte[],System.Byte[],System.Byte[])">
+        <member name="M:Javirs.Common.Security.TripleDesEncodeDecode.DecryptECB(System.Byte[],System.Byte[],System.Byte[],System.Security.Cryptography.CipherMode,System.Security.Cryptography.PaddingMode)">
             <summary>
             ECB解密
             </summary>
             <param name="encryptedDataBytes"></param>
             <param name="keys"></param>
+            <param name="iv"></param>
+            <param name="mode"></param>
+            <param name="padding"></param>
             <returns></returns>
         </member>
         <member name="M:Javirs.Common.Security.TripleDesEncodeDecode.EncryptECB(System.Byte[],System.Byte[],System.Byte[],System.Security.Cryptography.CipherMode,System.Security.Cryptography.PaddingMode)">
@@ -2677,6 +2704,9 @@
             </summary>
             <param name="sourceDataBytes"></param>
             <param name="keys"></param>
+            <param name="iv"></param>
+            <param name="cipherMode"></param>
+            <param name="paddingMode"></param>
             <returns></returns>
         </member>
         <member name="T:Javirs.Common.TimeStamp">
@@ -2860,6 +2890,49 @@
         </member>
         <member name="M:Javirs.Common.Xml.FullTagXmlWriter.WriteEndElement">
             <summary>
+            写入结束标签
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Xml.FullTagXmlWriter.WriteString(System.String)">
+            <summary>
+            写入字符串
+            </summary>
+            <param name="text"></param>
+        </member>
+        <member name="M:Javirs.Common.Xml.FullTagXmlWriter.WriteRaw(System.String)">
+            <summary>
+            写入原字符串
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="P:Javirs.Common.Xml.XmlSerializeSetting.OutputDeclaretion">
+            <summary>
+            是否输出XML格式版本声明
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Xml.XmlSerializeSetting.OutputNamespace">
+            <summary>
+            是否输出命名空间
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Xml.XmlSerializeSetting.IsFullTag">
+            <summary>
+            是否启用完整标签。 闭合标签&lt;text /&gt;，完整标签&lt;text&gt;&lt;/text&gt;
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Xml.XmlSerializeSetting.Standalone">
+            <summary>
+            是否在xml声明头加入Standalone属性
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Xml.XmlSerializeSetting.IsOutputCData">
+            <summary>
+            是否输出&lt;![CDATA[ text ]]&gt;
+            </summary>
+        </member>
+    </members>
+</doc>
+<summary>
             写入结束标签
             </summary>
         </member>

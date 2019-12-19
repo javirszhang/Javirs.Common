@@ -60,6 +60,7 @@ namespace Javirs.Common.Json
                 return false;
             }
             bool isExist = false;
+            
             foreach (JsonConverter jc in list)
             {
                 if (jc.GetType() == converter.GetType())

@@ -198,9 +198,7 @@ namespace Javirs.Common.Caching
         /// <returns></returns>
         public List<T> GetList<T>(string pattern)
         {
-            string lua = @"local res = redis.call('keys',@pattern) 
-return res ";
-            RedisResult redisResult = DB.ScriptEvaluate(LuaScript.Prepare(lua), new { pattern });
+            RedisResult redisResult = GetRedisKeys(pattern);
             if (redisResult.IsNull)
             {
                 return new List<T>();
@@ -218,6 +216,28 @@ return res ";
                 }
             }
             return array;
+        }
+        private RedisResult GetRedisKeys(string pattern)
+        {
+            string lua = @"local res = redis.call('keys',@pattern) 
+return res ";
+            RedisResult redisResult = DB.ScriptEvaluate(LuaScript.Prepare(lua), new { pattern });
+            return redisResult;
+        }
+        /// <summary>
+        /// 按通配符获取匹配的key
+        /// </summary>
+        /// <param name="pattern"></param>
+        /// <returns></returns>
+        public string[] GetKeys(string pattern)
+        {
+            RedisResult redisResult = GetRedisKeys(pattern);
+            if (redisResult.IsNull)
+            {
+                return new string[0];
+            }
+            string[] keys = (string[])redisResult;
+            return keys;
         }
     }
     /// <summary>
