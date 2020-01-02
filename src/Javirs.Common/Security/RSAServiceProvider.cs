@@ -102,7 +102,7 @@ namespace Javirs.Common.Security
             }
             else
             {
-                return _provider.Decrypt(bytes, doOAEPPadding);                
+                return _provider.Decrypt(bytes, doOAEPPadding);
             }
             //return this._provider.Decrypt(bytes, doOAEPPadding);
         }
@@ -158,7 +158,7 @@ namespace Javirs.Common.Security
 
                 List<byte> array = new List<byte>();
                 MemoryStream ms = new MemoryStream(bytes);
-                BinaryReader reader = new BinaryReader(ms);                
+                BinaryReader reader = new BinaryReader(ms);
                 while (reader.BaseStream.Length - reader.BaseStream.Position >= 1)
                 {
                     long count = reader.BaseStream.Length - reader.BaseStream.Position >= buffersize ? buffersize : reader.BaseStream.Length - reader.BaseStream.Position;
@@ -313,6 +313,11 @@ namespace Javirs.Common.Security
             }
             else
             {
+                //System.Numerics.BigInteger cryptoData = new System.Numerics.BigInteger(data);
+                //var e = new System.Numerics.BigInteger(E);
+                //var m = new System.Numerics.BigInteger(M);
+                //var resInteger = System.Numerics.BigInteger.ModPow(cryptoData, e, m);
+                //resBytes.AddRange(resInteger.ToByteArray());
                 Numeric.BigInteger cryptoData = new Numeric.BigInteger(data);
                 Numeric.BigInteger e = new Numeric.BigInteger(E);
                 Numeric.BigInteger n = new Numeric.BigInteger(M);
@@ -416,10 +421,9 @@ namespace Javirs.Common.Security
             {
                 return null;
             }
-            RSACryptoServiceProvider provider = new RSACryptoServiceProvider();
-            provider.FromXmlString(PrivateKey);
-            var paras = provider.ExportParameters(true);
-            var paddedData = AddPKCS1Padding(data, provider.KeySize / 8, usePublicKey);//添加PKCS#1填充
+
+            var paras = this._provider.ExportParameters(true);
+            var paddedData = AddPKCS1Padding(data, this._provider.KeySize / 8, usePublicKey);//添加PKCS#1填充
             var res = RSA(paddedData, paras.D, paras.Modulus);//对D取指数幂，对Modulus取模，得到加密结果
             return res;
         }
@@ -437,19 +441,57 @@ namespace Javirs.Common.Security
                 return Decrypt(data, doOAEPPadding);
             }
             var decryptoData = new byte[data.Length];
-            RSACryptoServiceProvider provider = new RSACryptoServiceProvider();
-            provider.FromXmlString(this.PublicKey);
-            var paras = provider.ExportParameters(false);
+            var paras = this._provider.ExportParameters(false);
             MemoryStream ms = new MemoryStream(data);
             BinaryReader reader = new BinaryReader(ms);
             List<byte> resArray = new List<byte>();
             while (reader.BaseStream.Length - reader.BaseStream.Position > 0)
             {
-                var tmp = reader.ReadBytes(provider.KeySize / 8);
+                var tmp = reader.ReadBytes(this._provider.KeySize / 8);
                 var decryptTmp = RemovePadding(RSA(tmp, paras.Exponent, paras.Modulus));
                 resArray.AddRange(decryptTmp);
             }
             return resArray.ToArray();
+        }
+        /// <summary>
+        /// 使用私钥加密
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public byte[] EncryptByPrivate(byte[] data)
+        {
+            //var xml = this._provider.ToXmlString(true);
+            var parameter = this._provider.ExportParameters(true);
+            var pub = new Org.BouncyCastle.Crypto.Parameters.RsaKeyParameters(false, new Org.BouncyCastle.Math.BigInteger(1, parameter.Modulus),
+                new Org.BouncyCastle.Math.BigInteger(1, parameter.Exponent));
+            var pvt = new Org.BouncyCastle.Crypto.Parameters.RsaPrivateCrtKeyParameters(
+                new Org.BouncyCastle.Math.BigInteger(1, parameter.Modulus),
+                new Org.BouncyCastle.Math.BigInteger(1, parameter.Exponent),
+                new Org.BouncyCastle.Math.BigInteger(1, parameter.D),
+                new Org.BouncyCastle.Math.BigInteger(1, parameter.P),
+                new Org.BouncyCastle.Math.BigInteger(1, parameter.Q),
+                new Org.BouncyCastle.Math.BigInteger(1, parameter.DP),
+                new Org.BouncyCastle.Math.BigInteger(1, parameter.DQ),
+                new Org.BouncyCastle.Math.BigInteger(1, parameter.InverseQ)
+                );
+            RsaKeyHelper helper = new RsaKeyHelper(pub, pvt);
+            //var helper = RsaKeyHelper.FromXmlKey(xml);
+            return helper.EncryptByPrivate(data);
+        }
+        /// <summary>
+        /// 使用公钥解密
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public byte[] DecryptByPublic(byte[] data)
+        {
+            //var xml = this._provider.ToXmlString(false);
+            var parameter = this._provider.ExportParameters(false);
+            var pub = new Org.BouncyCastle.Crypto.Parameters.RsaKeyParameters(false,
+                new Org.BouncyCastle.Math.BigInteger(1, parameter.Modulus),
+                new Org.BouncyCastle.Math.BigInteger(1, parameter.Exponent));
+            var helper = new RsaKeyHelper(pub, null);
+            return helper.DecryptByPublic(data);
         }
     }
 }

@@ -436,16 +436,6 @@
             金额数值
             </summary>
         </member>
-        <member name="M:Jav>
-            <summary>
-            货币单位
-            </summary>
-        </member>
-        <member name="P:Javirs.Common.CNY.Amount">
-            <summary>
-            金额数值
-            </summary>
-        </member>
         <member name="M:Javirs.Common.CNY.ConvertTo(Javirs.Common.CnyUnit)">
             <summary>
             转换到指定单位
@@ -485,50 +475,6 @@
             <param name="c2"></param>
             <returns>返回以c1单位的货币对象</returns>
         </member>
-        <member name="T:Javirs.Common.DistributedCacheExtension">
-            <summary>
-            分布式缓存扩展类
-            </summary>
-        </member>
-        <member name="M:Javirs.Common.DistributedCacheExtension.Get``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String)">
-            <summary>
-            获取指定key的缓存值
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="cache"></param>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Javirs.Common.DistributedCacheExtension.GetAsync``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String)">
-            <summary>
-            获取指定key的缓存值
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="cache"></param>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Javirs.Common.DistributedCacheExtension.Set``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String,``0,System.Nullable{System.TimeSpan})">
-            <summary>
-            设置
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="cache"></param>
-            <param name="key"></param>
-            <param name="t"></param>
-            <param name="ts"></param>
-        </member>
-        <member name="M:Javirs.Common.DistributedCacheExtension.SetAsync``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String,``0,System.Nullable{System.TimeSpan})">
-            <summary>
-            设置
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="cache"></param>
-            <param name="key"></param>
-            <param name="t"></param>
-            <param name="ts"></param>
-            <returns></returns>
-        </member>
         <member name="T:Javirs.Common.DynamicConverter">
             <summary>
             动态类型转换
@@ -536,7 +482,66 @@
         </member>
         <member name="M:Javirs.Common.DynamicConverter.#ctor(System.Data.DataRow)">
             <summary>
-            动态类型转�PascalCaseWithoutSplit">
+            动态类型转换
+            </summary>
+            <param name="row"></param>
+        </member>
+        <member name="M:Javirs.Common.DynamicConverter.#ctor(System.Data.DataTable,System.Boolean)">
+            <summary>
+            动态类型转换
+            </summary>
+            <param name="table"></param>
+            <param name="forceToCollection"></param>
+        </member>
+        <member name="P:Javirs.Common.DynamicConverter.KeyCase">
+            <summary>
+            Key的字符类型（大写，小写，驼峰）
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.DynamicConverter.ToDynamic(System.String[])">
+            <summary>
+            转换为动态类型
+            </summary>
+            <param name="filterColumns">过滤列（只要这些列，不传则全选）</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.DynamicConverter.op_Implicit(System.Data.DataRow)~Javirs.Common.DynamicConverter">
+            <summary>
+            对DataRow的隐式转换
+            </summary>
+            <param name="row"></param>
+        </member>
+        <member name="E:Javirs.Common.DynamicConverter.FieldGenerating">
+            <summary>
+            字段生成之前
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.DynamicConverter.OnFieldGenerating(Javirs.Common.NameValuePair)">
+            <summary>
+            字段生成之前
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.DynamicConverter.KeyType">
+            <summary>
+            属性名的大小写格式
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.DynamicConverter.KeyType.LowerCase">
+            <summary>
+            全小写
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.DynamicConverter.KeyType.UpperCase">
+            <summary>
+            全大写
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.DynamicConverter.KeyType.PascalCase">
+            <summary>
+            驼峰
+            </summary>
+        </member>
+        <member name="F:Javirs.Common.DynamicConverter.KeyType.PascalCaseWithoutSplit">
             <summary>
             驼峰去掉分隔符
             </summary>
@@ -1065,6 +1070,13 @@
             EXCEL表格
             </summary>
             <param name="table"></param>
+            <param name="contexts"></param>
+        </member>
+        <member name="M:Javirs.Common.IO.ExcelSheet.#ctor(System.Collections.Generic.IEnumerable{System.Object},System.Collections.Generic.IEnumerable{Javirs.Common.IO.ExcelSheetContext})">
+            <summary>
+            EXCEL表格
+            </summary>
+            <param name="datalist"></param>
             <param name="contexts"></param>
         </member>
         <member name="M:Javirs.Common.IO.ExcelSheet.Export(System.IO.Stream)">
@@ -1954,6 +1966,39 @@
             <param name="t"></param>
             <returns></returns>
         </member>
+        <member name="T:Javirs.Common.Security.AesCryptoProvider">
+            <summary>
+            aes加解密提供程序
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Security.AesCryptoProvider.CipherMode">
+            <summary>
+            密文模式
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Security.AesCryptoProvider.PaddingMode">
+            <summary>
+            填充模式
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.Security.AesCryptoProvider.IV">
+            <summary>
+            向量
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.Security.AesCryptoProvider.#ctor(System.String,System.Boolean)">
+            <summary>
+            aes加解密提供程序
+            </summary>
+            <param name="hexKey"></param>
+            <param name="useSecureRandom">使用随机密钥，对接java</param>
+        </member>
+        <member name="M:Javirs.Common.Security.AesCryptoProvider.#ctor(System.Byte[])">
+            <summary>
+            aes加解密提供程序
+            </summary>
+            <param name="key"></param>
+        </member>
         <member name="M:Javirs.Common.Security.AesCryptoProvider.Encrypt(System.Byte[])">
             <summary>
             加密
@@ -2441,7 +2486,7 @@
             <param name="rsa"></param>
             <returns></returns>
         </member>
-        <member name="M:Javirs.Common.Security.RsaKeyHelper.PublicToXml(System.String)">
+        <member name="M:Javirs.Common.Security.RsaKeyHelper.PublicPemToXml(System.String)">
             <summary>
             PEM公钥转为xml公钥
             </summary>
@@ -2655,6 +2700,20 @@
             <param name="doOAEPPadding">是否有进行OAEP填充</param>
             <param name="usePublicKey">是否使用公钥解密</param>
             <returns>解密的明文字节组</returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.EncryptByPrivate(System.Byte[])">
+            <summary>
+            使用私钥加密
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Security.RSAServiceProvider.DecryptByPublic(System.Byte[])">
+            <summary>
+            使用公钥解密
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
         </member>
         <member name="T:Javirs.Common.Security.TripleDesEncodeDecode">
             <summary>
@@ -2890,49 +2949,6 @@
         </member>
         <member name="M:Javirs.Common.Xml.FullTagXmlWriter.WriteEndElement">
             <summary>
-            写入结束标签
-            </summary>
-        </member>
-        <member name="M:Javirs.Common.Xml.FullTagXmlWriter.WriteString(System.String)">
-            <summary>
-            写入字符串
-            </summary>
-            <param name="text"></param>
-        </member>
-        <member name="M:Javirs.Common.Xml.FullTagXmlWriter.WriteRaw(System.String)">
-            <summary>
-            写入原字符串
-            </summary>
-            <param name="data"></param>
-        </member>
-        <member name="P:Javirs.Common.Xml.XmlSerializeSetting.OutputDeclaretion">
-            <summary>
-            是否输出XML格式版本声明
-            </summary>
-        </member>
-        <member name="P:Javirs.Common.Xml.XmlSerializeSetting.OutputNamespace">
-            <summary>
-            是否输出命名空间
-            </summary>
-        </member>
-        <member name="P:Javirs.Common.Xml.XmlSerializeSetting.IsFullTag">
-            <summary>
-            是否启用完整标签。 闭合标签&lt;text /&gt;，完整标签&lt;text&gt;&lt;/text&gt;
-            </summary>
-        </member>
-        <member name="P:Javirs.Common.Xml.XmlSerializeSetting.Standalone">
-            <summary>
-            是否在xml声明头加入Standalone属性
-            </summary>
-        </member>
-        <member name="P:Javirs.Common.Xml.XmlSerializeSetting.IsOutputCData">
-            <summary>
-            是否输出&lt;![CDATA[ text ]]&gt;
-            </summary>
-        </member>
-    </members>
-</doc>
-<summary>
             写入结束标签
             </summary>
         </member>

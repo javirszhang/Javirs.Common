@@ -97,11 +97,11 @@ namespace Javirs.Common.Security
         /// </summary>
         /// <param name="cipher"></param>
         /// <returns></returns>
-        private byte[] EncryptByPrivate(byte[] cipher)
+        public byte[] EncryptByPrivate(byte[] cipher)
         {
             IAsymmetricBlockCipher engine = new Pkcs1Encoding(new RsaEngine());
             engine.Init(true, this.Private);
-            int blockSize = (engine.GetInputBlockSize() / 8) - 11;
+            int blockSize = engine.GetInputBlockSize(); //(engine.GetInputBlockSize() / 8) - 11;
 
             List<byte> result = new List<byte>();
             int pos = 0;
@@ -121,7 +121,7 @@ namespace Javirs.Common.Security
         /// </summary>
         /// <param name="buffer"></param>
         /// <returns></returns>
-        private byte[] DecryptByPublic(byte[] buffer)
+        public byte[] DecryptByPublic(byte[] buffer)
         {
             IAsymmetricBlockCipher engine = new Pkcs1Encoding(new RsaEngine());
             engine.Init(false, this.Public);
@@ -165,7 +165,16 @@ namespace Javirs.Common.Security
             try
             {
                 keyString = FormatKeyString(keyString);
-                PemReader reader = new PemReader(new StringReader(keyString), new MyPasswordFinder("1548699391"));
+
+                PemReader reader = null;
+                if (!string.IsNullOrEmpty(password))
+                {
+                    reader = new PemReader(new StringReader(keyString), new MyPasswordFinder(password));
+                }
+                else
+                {
+                    reader = new PemReader(new StringReader(keyString));
+                }
                 var tmpObj = reader.ReadObject();
                 if (tmpObj is AsymmetricCipherKeyPair keys)//pkcs1 private key
                 {
@@ -266,17 +275,6 @@ namespace Javirs.Common.Security
             {
                 D = new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(dXml.Value));
             }
-            //RsaPrivateCrtKeyParameters rsaPrivateCrtKeyParameters = new RsaPrivateCrtKeyParameters(
-            //    //new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(modulus.Value)),
-            //    //new Org.BouncyCastle.Math.BigInteger(1, Convert.FromBase64String(exponent.Value)),
-            //    M,
-            //    E,
-            //    D,
-            //    P,
-            //    Q,
-            //    DP,
-            //    DQ,
-            //    QI);
             RsaPrivateCrtKeyParameters rsaPrivateCrtKeyParameters = null;
             if (D != null)
             {
@@ -455,14 +453,14 @@ namespace Javirs.Common.Security
         /// </summary>
         /// <param name="pemPublicKeyString"></param>
         /// <returns></returns>
-        public static string PublicToXml(string pemPublicKeyString)
+        public static string PublicPemToXml(string pemPublicKeyString)
         {
             string tmp = FormatPublicKey(pemPublicKeyString);
             PemReader pr = new PemReader(new StringReader(tmp));
             var obj = pr.ReadObject();
             if (!(obj is RsaKeyParameters rsaKey))
             {
-                throw new Exception("Public key format is incorrect");
+                throw new InvalidKeyFormatException("Public key format is incorrect");
             }
             return PublicToXml(rsaKey);
         }

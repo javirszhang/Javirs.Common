@@ -1,4 +1,5 @@
 ﻿using Javirs.Common.Json;
+using Javirs.Common.Net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -44,9 +45,9 @@ namespace Javirs.Common.Tests
         {
             var m = new
             {
-                text = JsonSerializer.JsonSerialize(new {name="Jason" })
+                text = JsonSerializer.JsonSerialize(new { name = "Jason" })
             };
-            string json = File.ReadAllText(@"g:\jsonfiles\json.txt"); 
+            string json = File.ReadAllText(@"g:\jsonfiles\json.txt");
             //string json = JsonSerializer.JsonSerialize(m);
             var obj = JsonObject.Parse(json);
             string text = obj.GetString("text");
@@ -57,7 +58,22 @@ namespace Javirs.Common.Tests
             //string code = obj.GetArray()[0].GetString("code");
             Assert.AreEqual("who's right", code);
         }
-        
+        [TestMethod]
+        public void ComplexJsonParseTest()
+        {
+            HttpHelper http = new HttpHelper("http://gpu-rest.52stark.cn/openapi/Channel/auth/template/duolab?merchantNo=2019110200001032");
+            string json = http.Get();
+            JsonObject jo = JsonObject.Parse(json);
+            JsonObject data = jo.GetObject("data");
+            string value = data.GetString("value");
+            JsonObject v = JsonObject.Parse(value);
+            JsonObject[] array = v.GetArray();
+            foreach (var a in array)
+            {
+                string regular = a.GetString("regular");
+                Assert.AreEqual("^\\d+$", regular);
+            }
+        }
     }
 
     public class PageReturnInfo

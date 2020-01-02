@@ -6,49 +6,50 @@ using System.Text;
 
 namespace Javirs.Common.Security
 {
+    /// <summary>
+    /// aes加解密提供程序
+    /// </summary>
     public class AesCryptoProvider
     {
-        private string hexKey;
+        private byte[] keyBytes;
         private bool useSecureRandom;
-        private CipherMode cipherMode;
-        private PaddingMode paddingMode;
-
-        public CipherMode CipherMode
-        {
-            get
-            {
-                return cipherMode;
-            }
-
-            set
-            {
-                cipherMode = value;
-            }
-        }
-
-        public PaddingMode PaddingMode
-        {
-            get
-            {
-                return paddingMode;
-            }
-
-            set
-            {
-                paddingMode = value;
-            }
-        }
-
+        /// <summary>
+        /// 密文模式
+        /// </summary>
+        public CipherMode CipherMode { get; set; }
+        /// <summary>
+        /// 填充模式
+        /// </summary>
+        public PaddingMode PaddingMode { get; set; }
+        /// <summary>
+        /// 向量
+        /// </summary>
+        public byte[] IV { get; set; }
+        /// <summary>
+        /// aes加解密提供程序
+        /// </summary>
+        /// <param name="hexKey"></param>
+        /// <param name="useSecureRandom">使用随机密钥，对接java</param>
         public AesCryptoProvider(string hexKey, bool useSecureRandom)
         {
-            this.hexKey = hexKey;
+            this.keyBytes = hexKey.HexString2ByteArray();
             this.useSecureRandom = useSecureRandom;
-            this.cipherMode = CipherMode.ECB;
-            this.paddingMode = PaddingMode.PKCS7;
+            this.CipherMode = CipherMode.ECB;
+            this.PaddingMode = PaddingMode.PKCS7;
+        }
+        /// <summary>
+        /// aes加解密提供程序
+        /// </summary>
+        /// <param name="key"></param>
+        public AesCryptoProvider(byte[] key)
+        {
+            this.keyBytes = key;
+            this.useSecureRandom = false;
+            this.CipherMode = CipherMode.ECB;
+            this.PaddingMode = PaddingMode.PKCS7;
         }
         private byte[] GetKeyBytes()
         {
-            var keyBytes = hexKey.HexString2ByteArray();
             if (useSecureRandom)
             {
                 SecureRandomKeyGenerator srkg = new SecureRandomKeyGenerator(keyBytes);
@@ -67,9 +68,26 @@ namespace Javirs.Common.Security
             aes.Mode = this.CipherMode;
             aes.Padding = this.PaddingMode;
             aes.Key = GetKeyBytes();
+            if (aes.Mode == CipherMode.CBC && IV == null)
+            {
+                IV = initIV(keyBytes.Length);
+            }
+            if (IV != null)
+            {
+                aes.IV = IV;
+            }
             var encryptor = aes.CreateEncryptor();
             var bResult = encryptor.TransformFinalBlock(plainBytes, 0, plainBytes.Length);
             return bResult;
+        }
+        private static byte[] initIV(int blockSize)
+        {
+            byte[] iv = new byte[blockSize];
+            for (int i = 0; i < blockSize; i++)
+            {
+                iv[0] = 0;
+            }
+            return iv;
         }
         /// <summary>
         /// 加密，使用UTF8编码明文，密文以base64返回
@@ -93,6 +111,14 @@ namespace Javirs.Common.Security
             aes.Mode = this.CipherMode;
             aes.Padding = this.PaddingMode;
             aes.Key = GetKeyBytes();
+            if (aes.Mode == CipherMode.CBC && IV == null)
+            {
+                IV = initIV(keyBytes.Length);
+            }
+            if (IV != null)
+            {
+                aes.IV = IV;
+            }
             var decryptor = aes.CreateDecryptor();
             var plainBytes = decryptor.TransformFinalBlock(cipherBytes, 0, cipherBytes.Length);
             return plainBytes;

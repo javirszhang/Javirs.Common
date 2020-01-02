@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Javirs.Common.IO
@@ -25,6 +26,47 @@ namespace Javirs.Common.IO
         {
             this._table = table;
             this._contexts = contexts;
+        }
+        /// <summary>
+        /// EXCEL表格
+        /// </summary>
+        /// <param name="datalist"></param>
+        /// <param name="contexts"></param>
+        public ExcelSheet(IEnumerable<object> datalist, IEnumerable<ExcelSheetContext> contexts = null)
+        {
+            this._table = BuildTable(datalist);
+            this._contexts = contexts;
+        }
+        private static DataTable BuildTable(IEnumerable<object> datalist)
+        {
+            DataTable table = new DataTable();
+            if (datalist == null || datalist.Count() <= 0)
+            {
+                return table;
+            }
+            try
+            {
+                Type t = datalist.First().GetType();
+                var properties = t.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+                foreach (var p in properties)
+                {
+                    table.Columns.Add(p.Name, p.PropertyType);
+                }
+                foreach (object item in datalist)
+                {
+                    object[] itemArray = new object[properties.Length];
+                    for (int i = 0; i < properties.Length; i++)
+                    {
+                        itemArray[i] = properties[i].GetValue(item);
+                    }
+                    table.Rows.Add(itemArray);
+                }
+            }
+            catch
+            {
+
+            }
+            return table;
         }
         private ExcelSheetContext[] SheetColumns()
         {
