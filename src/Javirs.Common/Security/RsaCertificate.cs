@@ -12,9 +12,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.IO;
 using System.Diagnostics;
 using System.Security.Cryptography;
-#if !V35
 using System.Numerics;
-#endif
 
 namespace Javirs.Common.Security
 {
@@ -46,11 +44,11 @@ namespace Javirs.Common.Security
             this._provider = new RSACryptoServiceProvider();
             if (cert.HasPrivateKey)
             {
-                this._provider.FromXmlString(cert.PrivateKey.ToXmlString(true));
+                this._provider.ImportParameters(((RSA)cert.PrivateKey).ExportParameters(true));
             }
             else
             {
-                this._provider.FromXmlString(cert.PublicKey.Key.ToXmlString(false));
+                this._provider.ImportParameters(((RSA)cert.PublicKey.Key).ExportParameters(false));
             }
         }
 
@@ -91,11 +89,17 @@ namespace Javirs.Common.Security
             rsa._certificate2 = new X509Certificate2(path, password, X509KeyStorageFlags.Exportable);
             if (rsa._certificate2.HasPrivateKey)
             {
-                rsa._provider.FromXmlString(rsa._certificate2.PrivateKey.ToXmlString(true));
+
+                RSA cng = (RSA)rsa._certificate2.PrivateKey;
+                var parameter = cng.ExportParameters(true);
+                rsa._provider.ImportParameters(parameter);
             }
             else
             {
-                rsa._provider.FromXmlString(rsa._certificate2.PublicKey.Key.ToXmlString(false));
+                //rsa._provider = (RSACryptoServiceProvider)rsa._certificate2.PublicKey.Key;
+                RSA cng = (RSA)rsa._certificate2.PublicKey.Key;
+                var parameter = cng.ExportParameters(false);
+                rsa._provider.ImportParameters(parameter);
             }
             return rsa;
         }
@@ -111,7 +115,8 @@ namespace Javirs.Common.Security
             var rsa = new RsaCertificate();
             rsa._certificate2 = new X509Certificate2(path);
             rsa._provider = new RSACryptoServiceProvider();
-            rsa._provider.FromXmlString(rsa._certificate2.PublicKey.Key.ToXmlString(false));
+            RSA cng = (RSA)rsa._certificate2.PublicKey.Key;
+            rsa._provider.ImportParameters(cng.ExportParameters(false));
             return rsa;
         }
 
@@ -316,7 +321,7 @@ namespace Javirs.Common.Security
             }
         }
         #endregion
-#if !V35
+
         /// <summary>
         /// 证书ID
         /// </summary>
@@ -328,18 +333,6 @@ namespace Javirs.Common.Security
             }
             return BigInteger.Parse(this._certificate2.SerialNumber, System.Globalization.NumberStyles.HexNumber).ToString();
         }
-#else
-        /// <summary>
-        /// 证书ID
-        /// </summary>
-        public string GetCertificateID()
-        {
-            if (this._certificate2 == null)
-            {
-                return null;
-            }
-            return Javirs.Common.Numeric.BigNum.ToDecimalStr(Javirs.Common.Numeric.BigNum.ConvertFromHex(this._certificate2.SerialNumber)); 
-        }
-#endif
+
     }
 }

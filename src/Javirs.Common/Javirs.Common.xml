@@ -1126,6 +1126,113 @@
             <param name="converter">值转换委托</param>
             <returns></returns>
         </member>
+        <member name="T:Javirs.Common.IO.IniFile">
+            <summary>
+            ini文件操作
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.IO.IniFile.Read(System.String)">
+            <summary>
+            读取ini文件
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Javirs.Common.IO.IniFile.Sections">
+            <summary>
+            所有配置
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.IO.IniFile.GetSection(System.String,System.Boolean)">
+            <summary>
+            获取配置
+            </summary>
+            <param name="name"></param>
+            <param name="createIfNotExist"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.IO.IniFile.Save">
+            <summary>
+            保存到文件
+            </summary>
+        </member>
+        <member name="T:Javirs.Common.IO.IniProperty">
+            <summary>
+            ini配置属性
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.IO.IniProperty.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.IO.IniProperty.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="s"></param>
+        </member>
+        <member name="P:Javirs.Common.IO.IniProperty.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.IO.IniProperty.Value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.IO.IniProperty.Comments">
+            <summary>
+            注释
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.IO.IniProperty.ToString(System.Boolean)">
+            <summary>
+            转字符串
+            </summary>
+            <param name="containComment">是否包含注释</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.IO.IniProperty.ToString">
+            <summary>
+            转字符串，默认不包含注释
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Javirs.Common.IO.IniSection">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.IO.IniSection.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.IO.IniSection.Comments">
+            <summary>
+            注释
+            </summary>
+        </member>
+        <member name="P:Javirs.Common.IO.IniSection.Properties">
+            <summary>
+            属性
+            </summary>
+        </member>
+        <member name="M:Javirs.Common.IO.IniSection.ToString(System.Boolean)">
+            <summary>
+            转字符串
+            </summary>
+            <param name="containComment">是否包含注释</param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.IO.IniSection.ToString">
+            <summary>
+            转字符串，不包含注释
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:Javirs.Common.IO.NPOIExcelBookAttribute.TitleName">
             <summary>
             表头
@@ -1779,6 +1886,17 @@
             <param name="contentType"></param>
             <param name="timeout"></param>
             <param name="isUseCert"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Javirs.Common.Net.HttpHelper.SendRequestAsync(System.String,System.Byte[],System.Int32,System.Boolean,System.String)">
+            <summary>
+            发送异步请求
+            </summary>
+            <param name="method"></param>
+            <param name="buffer"></param>
+            <param name="timeout"></param>
+            <param name="isUseCert"></param>
+            <param name="contentType"></param>
             <returns></returns>
         </member>
         <member name="M:Javirs.Common.Net.HttpHelper.Post(System.Object)">

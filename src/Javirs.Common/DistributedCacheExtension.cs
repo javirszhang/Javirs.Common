@@ -48,6 +48,7 @@ namespace Javirs.Common
                 return default(T);
             return JsonConvert.DeserializeObject<T>(dataJson);
         }
+        /*
         /// <summary>
         /// 设置
         /// </summary>
@@ -62,7 +63,7 @@ namespace Javirs.Common
             {
                 var bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(t));
                 if (ts.HasValue)
-                    cache.Set(key, bytes, new DistributedCacheEntryOptions { SlidingExpiration = ts });
+                    cache.Set(key, bytes, new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = ts });
                 else
                     cache.Set(key, bytes);
             }
@@ -82,7 +83,49 @@ namespace Javirs.Common
             {
                 var bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(t));
                 if (ts.HasValue)
-                    await cache.SetAsync(key, bytes, new DistributedCacheEntryOptions { SlidingExpiration = ts });
+                    await cache.SetAsync(key, bytes, new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = ts });
+                else
+                    await cache.SetAsync(key, bytes);
+            }
+        }
+        */
+
+        /// <summary>
+        /// 设置
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cache"></param>
+        /// <param name="key"></param>
+        /// <param name="t"></param>
+        /// <param name="options"></param>
+        public static void Set<T>(this IDistributedCache cache, string key, T t, DistributedCacheEntryOptions options)
+        {
+            if (t != null)
+            {
+                var bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(t));
+                if (options != null)
+                    cache.Set(key, bytes, options);
+                else
+                    cache.Set(key, bytes);
+            }
+        }
+
+        /// <summary>
+        /// 设置
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cache"></param>
+        /// <param name="key"></param>
+        /// <param name="t"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public static async Task SetAsync<T>(this IDistributedCache cache, string key, T t, DistributedCacheEntryOptions options)
+        {
+            if (t != null)
+            {
+                var bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(t));
+                if (options != null)
+                    await cache.SetAsync(key, bytes, options);
                 else
                     await cache.SetAsync(key, bytes);
             }

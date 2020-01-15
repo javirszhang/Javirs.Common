@@ -588,7 +588,7 @@ namespace Javirs.Common.Json
                     c = next;
                     break;
             }
-            if (tagStack.Peek() == '"' && next != 'u' && next != '\\')
+            if (tagStack.Count > 0 && tagStack.Peek() == '"' && next != 'u' && next != '\\')
             {
                 sBuilder.Append('\\');
             }

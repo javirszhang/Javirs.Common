@@ -71,6 +71,7 @@ y/sgZnhRYgXBUlQVkQJAcDdDGN+SScKh7BANlDmdDqgOhRl34kbwslGs372xh7Fn
             var rsa = PemCertificate.ReadFromKeyString(privateKey);
             var res = rsa.EncryptByPrivate(buffer);
             string base64 = Convert.ToBase64String(res);
+            string signature = rsa.SignData(Encoding.UTF8.GetBytes("my name is Jason"));
             Debug.WriteLine(base64);
         }
         [Test]
@@ -122,6 +123,15 @@ FvVNjmzv1yHF";
             byte s1 = cs1[7];
             byte s2 = cs2[7];
 
+        }
+        [Test]
+        public void RsaSignTest()
+        {
+            byte[] buffer = Encoding.UTF8.GetBytes("my name is Jason");
+            string pfx = @"G:\Jason\certs\apiclient_cert.pfx";
+            var rsa = RsaCertificate.ReadFromPfx(pfx, "1548699391");
+            string signature = rsa.SignData(buffer);
+            Assert.IsTrue(rsa.VerifyData(buffer, Convert.FromBase64String(signature)));
         }
     }
 }

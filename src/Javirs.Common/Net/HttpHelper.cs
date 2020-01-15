@@ -9,6 +9,7 @@ using System.Net.Security;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace Javirs.Common.Net
@@ -129,14 +130,15 @@ namespace Javirs.Common.Net
         /// <returns></returns>
         public string Post(int timeout, bool isUseCert)
         {
-            this._requestData.Method = "POST";
-            this._requestData.UseCert = isUseCert;
-            this._requestData.Timeout = timeout;
-            using (this._requestData)
-            {
-                this._responseData = this._requestData.GetResponse();
-                return this._responseData.Result;
-            }
+            //this._requestData.Method = "POST";
+            //this._requestData.UseCert = isUseCert;
+            //this._requestData.Timeout = timeout;
+            //using (this._requestData)
+            //{
+            //    this._responseData = this._requestData.GetResponse();
+            //    return this._responseData.Result;
+            //}
+            return this.SendRequest("POST", null, timeout, isUseCert);
         }
         /// <summary>
         /// 上送数据
@@ -186,16 +188,17 @@ namespace Javirs.Common.Net
         /// <returns></returns>
         public string Post(string s, int timeout, bool isUseCert, string content_type)
         {
-            timeout = timeout < 10 ? 10 : timeout;
+            //timeout = timeout < 10 ? 10 : timeout;
 
-            this._requestData.SetPostString(s, content_type);
-            this._requestData.Timeout = timeout;
-            this._requestData.UseCert = isUseCert;
-            using (this._requestData)
-            {
-                this._responseData = this._requestData.GetResponse();
-                return this._responseData.Result;
-            }
+            //this._requestData.SetPostString(s, content_type);
+            //this._requestData.Timeout = timeout;
+            //this._requestData.UseCert = isUseCert;
+            //using (this._requestData)
+            //{
+            //    this._responseData = this._requestData.GetResponse();
+            //    return this._responseData.Result;
+            //}
+            return this.SendRequest("POST", this._requestData.Encoding.GetBytes(s), timeout, isUseCert, content_type);
         }
         /// <summary>
         /// 直接post字节数组
@@ -234,6 +237,22 @@ namespace Javirs.Common.Net
                 this._responseData = this._requestData.GetResponse();
                 return this._responseData.Result;
             }
+        }
+        /// <summary>
+        /// 发送异步请求
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="buffer"></param>
+        /// <param name="timeout"></param>
+        /// <param name="isUseCert"></param>
+        /// <param name="contentType"></param>
+        /// <returns></returns>
+        public async Task<string> SendRequestAsync(string method, byte[] buffer, int timeout, bool isUseCert, string contentType = null)
+        {
+            return await Task.Run(() =>
+            {
+                return this.SendRequest(method, buffer, timeout, isUseCert, contentType);
+            });
         }
         /// <summary>
         /// 向http接口post数据

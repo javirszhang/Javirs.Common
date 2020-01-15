@@ -448,6 +448,22 @@ namespace Javirs.Common.Security
                 throw new InvalidKeyFormatException("无法识别的密钥", ex);
             }
         }
+        /*
+        public static RSACryptoServiceProvider RSACryptorServiceProvider(AsymmetricAlgorithm privateKey)
+        {
+            parameters = new RSAParameters
+            {
+                DP = privateKey.DP.ToByteArrayUnsigned(),
+                DQ = this.Private.DQ.ToByteArrayUnsigned(),
+                Exponent = this.Private.PublicExponent.ToByteArrayUnsigned(),
+                InverseQ = this.Private.QInv.ToByteArrayUnsigned(),
+                D = this.Private.Exponent.ToByteArrayUnsigned(),
+                P = this.Private.P.ToByteArrayUnsigned(),
+                Modulus = this.Private.Modulus.ToByteArrayUnsigned(),
+                Q = this.Private.Q.ToByteArrayUnsigned()
+            };
+        }
+        */
         /// <summary>
         /// PEM公钥转为xml公钥
         /// </summary>
